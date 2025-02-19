@@ -1,4 +1,4 @@
-# Practice task: Parametrized fixtures for Conduit
+# Practice task: Parametrized tests and fixtures for Conduit
 
 ## Preparation:
 1. Open the forked repo in VSCode.
