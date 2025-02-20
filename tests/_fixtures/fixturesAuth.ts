@@ -10,13 +10,6 @@ export const test = base.extend<{
   signInPage;
   homePage;
 }>({
-  signUpUsers: async ({ pages, users, usersNumber }, use) => {
-    for (let i = 0; i < usersNumber; i++) {
-      await signUpUser(pages[i], users[i]);
-    }
-
-    await use('signUpUsers');
-  },
   signUpPage: async ({ page }, use) => {
     const signUpPage = new SignUpPage(page);
 

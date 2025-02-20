@@ -7,11 +7,11 @@
 
 ## Main task:
 1. Create parametrized tests for 1, 2 and 5 tags:
-- User is able to remove all tags from previoulsy created artcile. 
-- User is able to add tags on edit to the previousy created article. 
-- Use as example `createArticleWithTags.spec.js`. 
-3. Create three-users test with help of parametrized fixtures: pages, users and signUpUsers:
-- User can see in Your feeds articles from two other users.
+- *User is able to remove all tags from previoulsy created artcile.* 
+- *User is able to add tags on edit to the previousy created article.* 
+- Use as an example `createArticleWithTags.spec.js`. 
+3. Create three-users' test with parametrized fixtures `pages` and `users`.
+- *User can see in Your feeds articles from two other users.*
 - Use as an example `viewArticleCreatedByAnotherUser.spec.js`
 4. Re-run all your tests and make sure they pass after the updates. 
  
