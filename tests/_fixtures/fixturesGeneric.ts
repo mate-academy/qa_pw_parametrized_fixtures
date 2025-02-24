@@ -11,8 +11,8 @@ export const test = base.extend<{
   logger;
   infoTestLog;
 }>({
-  usersNumber: 1,
-  contextsNumber: 1,
+  usersNumber: [1, { option: true }],
+  contextsNumber: [1, { option: true }],
   pages: async ({ browser, contextsNumber }, use) => {
     let pages = Array(contextsNumber);
 
