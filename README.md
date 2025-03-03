@@ -2,7 +2,7 @@
 
 ## Preparation:
 1. Open the forked repo in VSCode.
-2. Create a new branch: git checkout -b added_article_test
+2. Create a new branch: git checkout -b task_solution
 3. Run the installation commands `npm ci` & `npx playwright install`.
 
 ## Main task:
