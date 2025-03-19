@@ -1,26 +1,35 @@
-# Practice task: Parametrized tests and fixtures for Conduit
+# Parametrized Tests and Fixtures for Conduit
 
-## Preparation:
+## Preparation
+
 1. Open the forked repo in VSCode.
-2. Create a new branch: git checkout -b task_solution
-3. Run the installation commands `npm ci` & `npx playwright install`.
+2. Create a new branch by running `git checkout -b task_solution`.
+3. Run the installation commands:
 
-## Main task:
-1. Create parametrized test for `signUpNegative.spec.js`
-- Use as an example `signInNegative.spec.js`. 
-2. Create parametrized tests for 1, 2 and 5 tags:
-- *User is able to remove all tags from previoulsy created artcile.* 
-- *User is able to add tags on edit to the previousy created article.* 
-- Use as an example `createArticleWithTags.spec.js`. 
-3. Create three-users' test with parametrized fixtures `pages` and `users`.
-- *User can see in Your feeds articles from two different users.*
-- Use as an example `viewArticleCreatedByAnotherUser.spec.js`
+    - `npm ci`
+    - `npx playwright install`
+
+## Task
+
+1. Create a parametrized test for `signUpNegative.spec.js`. Use `signInNegative.spec.js` as an example.
+2. Create parametrized tests for 1, 2, and 5 tags:
+
+    - *User is able to remove all tags from previously created article.*
+    - *User is able to add tags on edit to the previously created article.*
+    
+    Use `createArticleWithTags.spec.js` as an example.
+   
+3. Create a three-users test with parametrized fixtures `pages` and `users`:
+    
+    - *User can see in your feeds articles from two different users.*
+    
+    Use `viewArticleCreatedByAnotherUser.spec.js` as an example.
+   
 4. Re-run all your tests and make sure they pass after the updates. 
- 
 
-## Task Reporting: 
-1. Add and commit all your updates. 
+## Task Reporting
+
+1. Add and commit all your updates.
 2. Push the code to the origin.
-3. Create PR for your changes. 
-4. Fix all the suggestions from the Code review until PR is approved.  
-
+3. Create a PR for your changes.
+4. Keep implementing suggestions from code review until your PR is approved.
