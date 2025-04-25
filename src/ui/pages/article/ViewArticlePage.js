@@ -6,6 +6,14 @@ export class ViewArticlePage {
     this.userId = userId;
     this.articleTitleHeader = page.getByRole('heading');
     this.editArticleButton = page.getByRole('link', { name: 'Edit Article' }).first();
+    this.followUserButton = page.getByRole('button', { name: 'Follow' }).first();
+  }
+
+  async clickFollowUserButton() {
+    await this.step(`Click the 'Follow User' button`, async () => {
+      await this.followUserButton.click();
+      await expect(this.page.getByText('Unfollow').first()).toBeVisible();
+    });
   }
 
   async reload() {

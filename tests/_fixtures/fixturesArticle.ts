@@ -8,7 +8,18 @@ export const test = base.extend<{
   articleWithOneTag;
   createArticlePage: CreateArticlePage;
   viewArticlePage: ViewArticlePage;
+  articlesWithoutTags: Article[];
+  articlesNumber: number;
 }>({
+  articlesNumber: [1, { option: true }],
+  articlesWithoutTags: async ({ logger, articlesNumber }, use) => {
+    const articles: Article[] = [];
+    for (let i = 0; i < articlesNumber; i++) {
+      const article = generateNewArticleData(logger);
+      articles.push(article);
+    }
+    await use(articles);
+  },
   articleWithoutTags: async ({ logger }, use) => {
     const article = generateNewArticleData(logger);
 
@@ -30,3 +41,10 @@ export const test = base.extend<{
     await use(viewArticlePage);
   },
 });
+
+interface Article { 
+  title: string;
+  description: string; 
+  text: string; 
+  tags: string[]; 
+}
