@@ -6,8 +6,8 @@ import { ViewArticlePage } from '../../src/ui/pages/article/ViewArticlePage';
 export const test = base.extend<{
   articleWithoutTags;
   articleWithOneTag;
-  createArticlePage;
-  viewArticlePage;
+  createArticlePage: CreateArticlePage;
+  viewArticlePage: ViewArticlePage;
 }>({
   articleWithoutTags: async ({ logger }, use) => {
     const article = generateNewArticleData(logger);

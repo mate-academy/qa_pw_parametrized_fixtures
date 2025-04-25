@@ -5,7 +5,7 @@ import {
 } from '../../src/ui/constants/authErrorMessages';
 import { test } from '../_fixtures/fixtures';
 
-const testCases = [
+const testParameters = [
   {
     description: 'empty username',
     userData: { username: '', email: 'test@example.com', password: 'password123' },
@@ -23,7 +23,7 @@ const testCases = [
   },
 ];
 
-testCases.forEach(({ description, userData, expectedError }) => {
+testParameters.forEach(({ description, userData, expectedError }) => {
   test(`Sign up with ${description}`, async ({ signUpPage }) => {
     await signUpPage.open();
 
