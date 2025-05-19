@@ -5,10 +5,13 @@ export class ViewArticlePage {
     this.page = page;
     this.userId = userId;
     this.articleTitleHeader = page.getByRole('heading');
+    this.editButton = page
+      .getByRole('link', { name: ' Edit Article' })
+      .first();
   }
 
   authorLinkInArticleHeader(username) {
-    return this.page.getByRole('link', { username }).first();
+    return this.page.getByRole('link', { name: username }).first();
   }
 
   tagListItem(tagName) {
@@ -55,6 +58,19 @@ export class ViewArticlePage {
       for (let i = 0; i < tags.length; i++) {
         await expect(this.tagListItem(tags[i])).toBeVisible();
       }
+    });
+  }
+
+  async clickEditArticleLink() {
+    await this.editButton.click();
+  }
+
+  clickFollowAuthorButton(username) {
+    return this.step(`Click follow author button`, async () => {
+      const button = this.page
+        .locator('button', { hasText: 'Follow ' + username })
+        .first();
+      await button.click();
     });
   }
 }
