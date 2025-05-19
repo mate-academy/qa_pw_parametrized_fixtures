@@ -11,6 +11,7 @@ export class EditArticlePage {
     this.updateArticleButton = page.getByRole('button', {
       name: 'Update Article',
     });
+    this.tagField = page.getByPlaceholder('Enter tags');
   }
 
   async step(title, stepToRun) {

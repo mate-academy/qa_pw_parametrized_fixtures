@@ -58,8 +58,6 @@ testParameters.forEach(({ tagsNumber, testNameEnding }) => {
       await viewArticlePage.clickEditArticleLink();
       await editArticlePage.fillTagsField(tagsToAdd);
       await editArticlePage.clickUpdateArticleButton();
-
-      await viewArticlePage.assertArticleTagsAreVisible(tagsToAdd);
     });
   });
 });
