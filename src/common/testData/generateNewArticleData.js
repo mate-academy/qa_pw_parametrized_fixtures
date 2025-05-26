@@ -14,3 +14,7 @@ export function generateNewArticleData(logger, tagNumber = 0) {
 
   return article;
 }
+
+export function generateTags(tagNumber = 0) {
+  return Array.from({ length: tagNumber }, () => faker.lorem.word());
+}
