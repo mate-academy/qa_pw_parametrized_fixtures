@@ -12,7 +12,7 @@ export function generateNewArticleData(tagNumber = 0, logger = null) {
 
   // Логируем только если logger передан
   if (logger) {
-    logger.debug(`Generated new article data: ${article}`);
+    logger.debug(`Generated new article data: ${JSON.stringify(article)}`);
   }
 
   return article;

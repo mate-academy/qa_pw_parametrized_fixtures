@@ -37,9 +37,7 @@ export class HomePage {
       `Assert article with title "${expectedTitle}" is visible`,
       async () => {
         // Используем локатор с фильтрацией по тексту
-        const titleLocator = this.createdArticleTitle.filter({
-          hasText: expectedTitle,
-        });
+        const titleLocator = this.createdArticleTitle.getByText(expectedTitle);
 
         // Проверяем что заголовок существует и видим
         await expect(titleLocator).toBeVisible({
