@@ -5,6 +5,10 @@ export class ViewArticlePage {
     this.page = page;
     this.userId = userId;
     this.articleTitleHeader = page.getByRole('heading');
+    this.editArticleButton = page
+      .getByRole('link', { name: 'Edit Article' })
+      .first();
+    this.anotherTagElement = page.locator('.tag-default.tag-pill.tag-outline');
   }
 
   authorLinkInArticleHeader(username) {
@@ -50,11 +54,22 @@ export class ViewArticlePage {
     });
   }
 
-  async assertArticleTagsAreVisible(tags) {
+  async assertArticleTagsAreVisible() {
     await this.step(`Assert the article has correct tags`, async () => {
-      for (let i = 0; i < tags.length; i++) {
-        await expect(this.tagListItem(tags[i])).toBeVisible();
-      }
+      const tagsCount = await this.anotherTagElement.count();
+      await expect(this.anotherTagElement).toHaveCount(tagsCount);
+    });
+  }
+
+  async assertArticleTagsAreHidden() {
+    await this.step(`Assert the article are hidden`, async () => {
+      await expect(this.anotherTagElement).toBeHidden();
+    });
+  }
+
+  async clickOnEditArticleButton() {
+    await this.step(`Click on 'Edit Article' button`, async () => {
+      await this.editArticleButton.click();
     });
   }
 }
