@@ -1,6 +1,7 @@
 import { test } from '../../_fixtures/fixtures';
 import { generateNewArticleData } from '../../../src/common/testData/generateNewArticleData';
 import { signUpUser } from '../../../src/ui/actions/auth/signUpUser';
+import { createArticle } from '../../../src/ui/actions/articles/createArticle';
 
 const testParameters = [
   { tagsNumber: 1, testNameEnding: 'one tag' },
@@ -15,22 +16,14 @@ testParameters.forEach(({ tagsNumber, testNameEnding }) => {
     });
 
     test(`User is able to remove all tags from previously created article ${testNameEnding}`, async ({
-      homePage,
-      createArticlePage,
       viewArticlePage,
       editArticlePage,
       logger,
+      page,
     }) => {
       const article = generateNewArticleData(logger, tagsNumber);
 
-      await homePage.clickNewArticleLink();
-
-      await createArticlePage.fillTitleField(article.title);
-      await createArticlePage.fillDescriptionField(article.description);
-      await createArticlePage.fillTextField(article.text);
-      await createArticlePage.fillTagsField(article.tags);
-      await createArticlePage.clickPublishArticleButton();
-
+      await createArticle(page, article);
       await viewArticlePage.assertArticleTitleIsVisible(article.title);
       await viewArticlePage.assertArticleTextIsVisible(article.text);
       await viewArticlePage.assertArticleTagsAreVisible(article.tags);
