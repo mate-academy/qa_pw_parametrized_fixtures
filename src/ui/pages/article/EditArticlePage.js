@@ -5,10 +5,41 @@ export class EditArticlePage {
     this.page = page;
     this.userId = userId;
     this.articleTitleHeader = page.getByRole('heading');
+    this.articleTagField = page.getByPlaceholder('Enter tags');
+    this.updateArticleButton = page.getByRole(
+      'button', { name: 'Update Article'}
+    );
+  }
+
+  async deleteTags(tags) {
+    await this.step(`Remove tags <${tags}>`, async () =>{
+      for (const tag of tags) {
+        const crossButtonTag = this.page.locator(
+          'span').filter({ hasText: tag }).locator('i'
+        );
+        await crossButtonTag.click()
+      }
+    });
   }
 
   async step(title, stepToRun) {
     return await testStep(title, stepToRun, this.userId);
+  }
+
+  async clickUpdateButton() {
+    await this.step('Click update button', async () => {
+      await this.updateArticleButton.click()
+    });
+  }
+
+  async addTags(tags) {
+    await this.step(`Add tags <${tags}> to article`, async () => {
+      for (const tag of tags) {
+        await this.articleTagField.fill(tag);
+        await this.page.keyboard.press('Enter');
+      }
+
+    });
   }
 
   async assertArticleTitle(title) {
@@ -22,4 +53,5 @@ export class EditArticlePage {
       await expect(this.page.getByText(text)).toBeVisible();
     });
   }
+
 }
