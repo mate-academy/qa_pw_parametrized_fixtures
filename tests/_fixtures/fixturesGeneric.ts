@@ -10,6 +10,7 @@ export const test = base.extend<{
   users;
   logger;
   infoTestLog;
+  page;
 }>({
   usersNumber: [1, { option: true }],
   contextsNumber: [1, { option: true }],
@@ -22,6 +23,9 @@ export const test = base.extend<{
       pages[i] = await context.newPage();
     }
     await use(pages);
+  },
+  page: async ({ page }, use) => {
+    await use(page);
   },
   user: async ({ logger }, use) => {
     const user = generateNewUserData(logger);
