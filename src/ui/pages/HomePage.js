@@ -32,9 +32,9 @@ export class HomePage {
   }
   async assertArticleIsVisible(articleName) {
     await this.step('Assert article is visible', async () => {
-      this.page.getByRole('link').filter(
+      await expect(this.page.getByRole('link').filter(
         { hasText: `Article title: ${articleName}` }
-      );
+      ).first()).toBeVisible();
     });
   }
 

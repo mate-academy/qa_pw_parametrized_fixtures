@@ -31,14 +31,14 @@ test(
     await userProfilePage.openUserProfilePage(userProfileLink1);
     await userProfilePage.clickFollowButton();
     await userProfilePage.assertUnfollowButtonIsVisible();
-    
+
     await userProfilePage.openUserProfilePage(userProfileLink2);
     await userProfilePage.clickFollowButton();
     await userProfilePage.assertUnfollowButtonIsVisible();
 
     const homePage = new HomePage(pages[0], 1);
     await homePage.open();
-    await homePage.assertArticleIsVisible(articleUser2.tittle);
-    await homePage.assertArticleIsVisible(articleUser3.tittle);
+    await homePage.assertArticleIsVisible(articleUser2.title);
+    await homePage.assertArticleIsVisible(articleUser3.title);
 
 });
