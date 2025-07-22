@@ -5,6 +5,7 @@ export class HomePage {
     this.page = page;
     this.userId = userId;
     this.yourFeedTab = page.getByText('Your Feed');
+    this.globalFeedTab = page.getByText('Global Feed');
     this.newArticleLink = page.getByRole('link', { name: 'New Article' });
     this.articlesList = page.locator('.article-preview');
     this.articleTitle = page.locator('a.preview-link h1');

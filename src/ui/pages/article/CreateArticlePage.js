@@ -60,7 +60,7 @@ export class CreateArticlePage {
     if (tags.length === 0) {
       await this.step('Remove all tags', async () => {
         while ((await this.tagItem.count()) > 0) {
-          await this.tagItem.first().click().toHaveCount(0);
+          await this.tagItem.first().click();
         }
       });
     } else {
