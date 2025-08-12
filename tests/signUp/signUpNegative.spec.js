@@ -30,7 +30,6 @@ const testParameters = [
   }
 ];
 
-
 testParameters.forEach(({username, password, email,
                           message, title}) => {
   test.describe('' + title, () => {
@@ -46,3 +45,4 @@ testParameters.forEach(({username, password, email,
     })
   });
 })
+
