@@ -19,12 +19,6 @@ export class HomePage {
     });
   }
 
-  async clickHomeLink() {
-    await this.step(`Click the 'Home' link`, async () => {
-    await this.homeLink.click();
-    });
-  }
-
   async clickNewArticleLink() {
     await this.step(`Click the 'New Article' link`, async () => {
       await this.newArticleLink.click();
@@ -37,7 +31,7 @@ export class HomePage {
     });
   }
 
-  async assertArticleOnYourlFeedTabIsVisible(articleTitle, articleCreator) {
+  async assertArticleOnYourFeedTabIsVisible(articleTitle, articleCreator) {
     const article = this.page.getByText(articleTitle);
     const creator = this.page.getByRole('link', { name: articleCreator }).first();
 

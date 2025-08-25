@@ -36,6 +36,6 @@ test('View an articles in your feeds created by two different users', async ({
   await viewArticlePage.clickFollowButton(users[1].username);
 
   await homePage.clickHomeLink();
-  await homePage.assertArticleOnYourlFeedTabIsVisible(articleOneData.title, users[0].username);
-  await homePage.assertArticleOnYourlFeedTabIsVisible(articleTwoData.title, users[1].username);
+  await homePage.assertArticleOnYourFeedTabIsVisible(articleOneData.title, users[0].username);
+  await homePage.assertArticleOnYourFeedTabIsVisible(articleTwoData.title, users[1].username);
 });
