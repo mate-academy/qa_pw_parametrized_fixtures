@@ -10,6 +10,9 @@ export class CreateArticlePage {
     this.publishArticleButton = page.getByRole('button', {
       name: 'Publish Article',
     });
+    this.updateArticleButton = page.getByRole('button', {
+      name: 'Update Article',
+    });
     this.errorMessage = page.getByRole('list').nth(1);
   }
 
@@ -50,9 +53,24 @@ export class CreateArticlePage {
     });
   }
 
+  async unfillTagsField(tags) {
+    await this.step(`Unfill the 'Tags' field`, async() => {
+      for (let i = 0; i < tags.length; i++) {
+        const thisTag = this.page.locator('.tag-pill', { hasText: tags[i] }).locator('.ion-close-round');
+        await thisTag.click();
+      }
+    });
+  }
+
   async clickPublishArticleButton() {
     await this.step(`Click the 'Publish Article' button`, async () => {
       await this.publishArticleButton.click();
+    });
+  }
+
+  async clickUpdateArticleButton() {
+    await this.step(`Click the 'Update Article' button`, async () => {
+      await this.updateArticleButton.click();
     });
   }
 
