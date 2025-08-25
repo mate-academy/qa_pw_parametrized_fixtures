@@ -36,6 +36,14 @@ export class ViewArticlePage {
     });
   }
 
+  async clickFollowButton(articleCreator) {
+    await this.step(`Click the 'Follow ${articleCreator.toLowerCase()}' button`, async () => {
+      const button = this.page.getByRole('button', { name: `Follow ${articleCreator.toLowerCase()}` }).first();
+
+      await button.click();
+    });
+  }
+
   async assertArticleTitleIsVisible(title) {
     await this.step(`Assert the article has correct title`, async () => {
       await expect(this.articleTitleHeader).toContainText(title);
