@@ -12,6 +12,8 @@ export async function createArticle(page, article, userId = 0) {
       await createArticlePage.open();
       await createArticlePage.submitCreateArticleForm(article);
       await viewArticlePage.assertArticleTitleIsVisible(article.title);
+      await viewArticlePage.assertArticleTextIsVisible(article.text);
+      await viewArticlePage.assertArticleTagsAreVisible(article.tags);
 
       return viewArticlePage.url();
     },
