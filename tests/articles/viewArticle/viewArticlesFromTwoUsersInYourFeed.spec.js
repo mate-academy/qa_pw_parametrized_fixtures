@@ -1,4 +1,3 @@
-// tests/articles/viewArticle/viewArticlesFromTwoUsersInYourFeed.param.spec.js
 import { test } from '../../_fixtures/fixtures';
 import { ViewArticlePage } from '../../../src/ui/pages/article/ViewArticlePage';
 import { createArticle } from '../../../src/ui/actions/articles/createArticle';
