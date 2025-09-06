@@ -26,6 +26,7 @@ export default [
           code: 80,
           comments: 80,
           ignorePattern: 'import *',
+          ignoreTemplateLiterals: true,
         },
       ],
       ...playwright.configs['flat/recommended'].rules,
