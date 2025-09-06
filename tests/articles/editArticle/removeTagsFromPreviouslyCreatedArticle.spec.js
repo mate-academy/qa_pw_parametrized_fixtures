@@ -3,24 +3,25 @@ import { generateNewArticleData } from '../../../src/common/testData/generateNew
 import { signUpUser } from '../../../src/ui/actions/auth/signUpUser';
 
 const testParameters = [
-  { tagsNumber: 1, testNameEnding: 'one tag' },
-  { tagsNumber: 2, testNameEnding: 'two tags' },
-  { tagsNumber: 10, testNameEnding: 'ten tags' },
+  { TagsNumber: 1, testNameEnding: 'one tag' },
+  { TagsNumber: 2, testNameEnding: 'two tags' },
+  { TagsNumber: 5, testNameEnding: 'five tags' },
 ];
-
-testParameters.forEach(({ tagsNumber, testNameEnding }) => {
-  test.describe('Create an article with tags', () => {
+testParameters.forEach(({ TagsNumber, testNameEnding }) => {
+  test.describe('Remove all tags from previously created article', () => {
     test.beforeEach(async ({ page, user }) => {
       await signUpUser(page, user);
     });
 
-    test(`Create an article with ${testNameEnding}`, async ({
+    test(`Remove all tags from previously created article with ${testNameEnding}`, async ({
+      page,
       homePage,
       createArticlePage,
       viewArticlePage,
+      editArticlePage,
       logger,
     }) => {
-      const article = generateNewArticleData(logger, tagsNumber);
+      const article = generateNewArticleData(logger, TagsNumber);
 
       await homePage.clickNewArticleLink();
 
@@ -33,6 +34,18 @@ testParameters.forEach(({ tagsNumber, testNameEnding }) => {
       await viewArticlePage.assertArticleTitleIsVisible(article.title);
       await viewArticlePage.assertArticleTextIsVisible(article.text);
       await viewArticlePage.assertArticleTagsAreVisible(article.tags);
+
+      await viewArticlePage.clickEditArticleButton();
+
+      await editArticlePage.clearTags(TagsNumber);
+      await editArticlePage.clickUpdateArticleButton();
+
+      await page.waitForURL(`**/article/**`);
+      await page.reload();
+
+      await viewArticlePage.assertArticleTitleIsVisible(article.title);
+      await viewArticlePage.assertArticleTextIsVisible(article.text);
+      await viewArticlePage.assertArticleTagsAreNotVisible(article.tags);
     });
   });
 });
