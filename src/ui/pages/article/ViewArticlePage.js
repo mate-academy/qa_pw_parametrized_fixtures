@@ -5,6 +5,9 @@ export class ViewArticlePage {
     this.page = page;
     this.userId = userId;
     this.articleTitleHeader = page.getByRole('heading');
+    this.editArticleBtn = page
+      .getByRole('link', { name: 'Edit Article' })
+      .first();
   }
 
   authorLinkInArticleHeader(username) {
@@ -56,5 +59,9 @@ export class ViewArticlePage {
         await expect(this.tagListItem(tags[i])).toBeVisible();
       }
     });
+  }
+
+  async clickEditArticle() {
+    await this.editArticleBtn.click();
   }
 }
