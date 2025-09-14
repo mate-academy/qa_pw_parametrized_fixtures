@@ -36,7 +36,8 @@ testParameters.forEach(({ tagsNumber, testNameEnding }) => {
       await viewArticlePage.assertArticleTextIsVisible(article.text);
       await viewArticlePage.assertArticleTagsAreVisible(article.tags);
       await viewArticlePage.clickEditArticle();
-      await editArticlePage.assertRemovingArticleTags();
+      await editArticlePage.removingArticleTags();
+      await viewArticlePage.assertArticleTagsAreNotVisible();
     });
 
     test(`Add new tags to existing article with ${testNameEnding}`, async ({
@@ -55,13 +56,13 @@ testParameters.forEach(({ tagsNumber, testNameEnding }) => {
       await createArticlePage.fillTextField(article.text);
       await createArticlePage.fillTagsField(article.tags);
       await createArticlePage.clickPublishArticleButton();
-
       await viewArticlePage.assertArticleTitleIsVisible(article.title);
       await viewArticlePage.assertArticleTextIsVisible(article.text);
       await viewArticlePage.assertArticleTagsAreVisible(article.tags);
       await viewArticlePage.clickEditArticle();
       await editArticlePage.addTag('new_tag');
-      await editArticlePage.assertTagAdded(tagsNumber);
+      await editArticlePage.clickUpdateArticleBtn();
+      await viewArticlePage.assertArticleTagsInceasing(tagsNumber);
     });
   });
 });

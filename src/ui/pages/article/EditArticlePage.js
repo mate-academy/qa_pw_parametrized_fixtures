@@ -28,13 +28,12 @@ export class EditArticlePage {
     });
   }
 
-  async assertRemovingArticleTags() {
+  async removingArticleTags() {
     await this.step(`Remove all tags from the article`, async () => {
       while ((await this.deleteTagBtn.count()) > 0) {
         await this.deleteTagBtn.first().click({ timeout: 3000 });
-        //await this.page.waitForTimeout(100);
       }
-      await expect(this.page.locator('.tag-list')).toBeEmpty();
+      await this.updateArticleBtn.click();
     });
   }
 
@@ -43,7 +42,9 @@ export class EditArticlePage {
     await this.page.keyboard.press('Enter');
   }
 
-  async assertTagAdded(tagQty) {
-    await expect(this.deleteTagBtn).toHaveCount(tagQty + 1);
+  async clickUpdateArticleBtn() {
+    await this.step(`Click Update Article Btn`, async () => {
+      await this.updateArticleBtn.click();
+    });
   }
 }
