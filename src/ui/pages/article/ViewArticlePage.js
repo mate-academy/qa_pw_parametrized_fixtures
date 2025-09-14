@@ -5,10 +5,10 @@ export class ViewArticlePage {
     this.page = page;
     this.userId = userId;
     this.articleTitleHeader = page.getByRole('heading');
-  }
-
-  authorLinkInArticleHeader(username) {
-    return this.page.getByRole('link', { username }).first();
+    this.editArticleBtn = page
+      .getByRole('link', { name: 'Edit Article' })
+      .first();
+    this.followBtn = page.getByRole('button', { name: 'Follow' }).first();
   }
 
   tagListItem(tagName) {
@@ -56,5 +56,30 @@ export class ViewArticlePage {
         await expect(this.tagListItem(tags[i])).toBeVisible();
       }
     });
+  }
+
+  async clickEditArticle() {
+    await this.editArticleBtn.click();
+  }
+
+  async assertArticleTagsAreNotVisible() {
+    await this.step(`Assert the article has correct tags`, async () => {
+      await expect(this.page.locator('ul.tag-list')).toBeHidden();
+    });
+  }
+
+  async countTags() {
+    return this.page.locator('.tag-list .tag-pill').count();
+  }
+
+  async assertArticleTagsInceasing(tagsNumber) {
+    await this.step(`Assert the tags has been increased`, async () => {
+      const actualCount = await this.countTags();
+      expect(actualCount - 1).toBe(tagsNumber);
+    });
+  }
+
+  async clickFollowBtn() {
+    await this.followBtn.click({ timeout: 3000 });
   }
 }
