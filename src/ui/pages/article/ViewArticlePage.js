@@ -5,6 +5,14 @@ export class ViewArticlePage {
     this.page = page;
     this.userId = userId;
     this.articleTitleHeader = page.getByRole('heading');
+    this.editArticleButton = page
+      .getByRole('link')
+      .filter({ hasText: 'Edit Article' })
+      .first();
+    this.deleteArticleButton = page
+      .getByRole('link')
+      .filter({ hasText: 'Delete Article' })
+      .first();
   }
 
   authorLinkInArticleHeader(username) {
@@ -12,7 +20,20 @@ export class ViewArticlePage {
   }
 
   tagListItem(tagName) {
-    return this.page.getByRole('listitem').filter({ hasText: tagName });
+    const locator = this.page.locator('.tag-list li');
+    return tagName ? locator.filter({ hasText: tagName }) : locator;
+  }
+
+  async clickEditArticleButton() {
+    await this.step(`Click on the 'Edit' button`, async () => {
+      await this.editArticleButton.click();
+    });
+  }
+
+  async clickDeleteArticleButton() {
+    await this.step(`Click on the 'Delete' button`, async () => {
+      await this.deleteArticleButton.click();
+    });
   }
 
   async step(title, stepToRun) {
@@ -51,10 +72,16 @@ export class ViewArticlePage {
   }
 
   async assertArticleTagsAreVisible(tags) {
-    await this.step(`Assert the article has correct tags`, async () => {
-      for (let i = 0; i < tags.length; i++) {
-        await expect(this.tagListItem(tags[i])).toBeVisible();
-      }
-    });
+    if (tags.length > 0) {
+      await this.step(`Assert the article has correct tags`, async () => {
+        for (let i = 0; i < tags.length; i++) {
+          await expect(this.tagListItem(tags[i])).toBeVisible();
+        }
+      });
+    } else {
+      await this.step(`Assert the article has no tags`, async () => {
+        await expect(this.tagListItem()).toHaveCount(0);
+      });
+    }
   }
 }

@@ -7,8 +7,13 @@ export class CreateArticlePage {
     this.descriptionField = page.getByPlaceholder(`What's this article about?`);
     this.textField = page.getByPlaceholder('Write your article (in markdown)');
     this.tagField = page.getByPlaceholder('Enter tags');
+    this.tagItem = page.locator('.tag-list .ion-close-round');
+
     this.publishArticleButton = page.getByRole('button', {
       name: 'Publish Article',
+    });
+    this.updateArticleButton = page.getByRole('button', {
+      name: 'Update Article',
     });
     this.errorMessage = page.getByRole('list').nth(1);
   }
@@ -50,9 +55,32 @@ export class CreateArticlePage {
     });
   }
 
+  async clearTagsField(tags) {
+    console.log(tags);
+    if (tags.length === 0) {
+      await this.step('Remove all tags', async () => {
+        while ((await this.tagItem.count()) > 0) {
+          await this.tagItem.first().click();
+        }
+      });
+    } else {
+      await this.step(`Remove ${tags} tag(s)`, async () => {});
+      for (let i = 0; i < tags.length; i++) {
+        // if ((await this.tagItem.count()) === 0) break;
+        await this.tagItem.first().click();
+      }
+    }
+  }
+
   async clickPublishArticleButton() {
     await this.step(`Click the 'Publish Article' button`, async () => {
       await this.publishArticleButton.click();
+    });
+  }
+
+  async clickUpdateArticleButton() {
+    await this.step(`Click the 'Update Article' button`, async () => {
+      await this.updateArticleButton.click();
     });
   }
 
