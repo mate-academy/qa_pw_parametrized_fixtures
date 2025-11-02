@@ -5,6 +5,9 @@ export class ViewArticlePage {
     this.page = page;
     this.userId = userId;
     this.articleTitleHeader = page.getByRole('heading');
+    this.editArticleButton = page.locator('//*[@class="article-actions"]//a[contains(text(), "Edit Article")]');
+    this.followButton = page.locator('.article-actions button', { hasText: /Follow / });
+    this.unfollowButton = page.locator('.article-actions button', { hasText: /^Unfollow / });
   }
 
   authorLinkInArticleHeader(username) {
@@ -26,6 +29,18 @@ export class ViewArticlePage {
   async open(url) {
     await this.step(`Open 'View Article' page`, async () => {
       await this.page.goto(url);
+    });
+  }
+
+  async clickEditArticleButton() {
+    await this.step(`Click 'Edit Article' button`, async () => {
+      await this.editArticleButton.click();
+    });
+  }
+
+  async clickFollowButton() {
+    await this.step(`Click 'Follow' button`, async () => {
+      await this.followButton.click();
     });
   }
 
@@ -54,6 +69,14 @@ export class ViewArticlePage {
     await this.step(`Assert the article has correct tags`, async () => {
       for (let i = 0; i < tags.length; i++) {
         await expect(this.tagListItem(tags[i])).toBeVisible();
+      }
+    });
+  }
+
+  async assertArticleTagsAreHidden(tags) {
+    await this.step(`Assert the article without tags`, async () => {
+      for (let i = 0; i < tags.length; i++) {
+        await expect(this.tagListItem(tags[i])).toBeHidden();
       }
     });
   }

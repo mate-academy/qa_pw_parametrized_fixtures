@@ -1,4 +1,5 @@
 import { expect, testStep } from '../../../common/pwHelpers/pw';
+
 export class CreateArticlePage {
   constructor(page, userId = 0) {
     this.page = page;
@@ -7,8 +8,12 @@ export class CreateArticlePage {
     this.descriptionField = page.getByPlaceholder(`What's this article about?`);
     this.textField = page.getByPlaceholder('Write your article (in markdown)');
     this.tagField = page.getByPlaceholder('Enter tags');
+    this.tagRemoveButtons = page.locator('//*[@class="ion-close-round"]');
     this.publishArticleButton = page.getByRole('button', {
       name: 'Publish Article',
+    });
+    this.updateArticleButton = page.getByRole('button', {
+      name: 'Update Article',
     });
     this.errorMessage = page.getByRole('list').nth(1);
   }
@@ -50,9 +55,27 @@ export class CreateArticlePage {
     });
   }
 
+  async removeAllTags() {
+    await this.step(`Remove all tags`, async () => {
+      await this.tagRemoveButtons.first().waitFor({ state: 'visible' });
+      const tagsCount = await this.tagRemoveButtons.count();
+      console.log(tagsCount + 'tags Count');
+      
+      for (let i = 0; i < tagsCount; i++) {
+        await this.tagRemoveButtons.nth(0).click();
+      }
+    });
+  }
+
   async clickPublishArticleButton() {
     await this.step(`Click the 'Publish Article' button`, async () => {
       await this.publishArticleButton.click();
+    });
+  }
+
+  async clickUpdateArticleButton() {
+    await this.step(`Click the 'Update Article' button`, async () => {
+      await this.updateArticleButton.click();
     });
   }
 
