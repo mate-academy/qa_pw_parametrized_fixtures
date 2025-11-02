@@ -29,6 +29,7 @@ test(`View an articles in 'Your Feed' created by several users`, async ({
   await viewArticlePage.clickFollowButton();
 
   await homePage.open();
+  await homePage.clickYourFeed();
 
   await homePage.assertArticleAuthorContainsAuthor(users[0].username);
   await homePage.assertArticleTitleContainsTitle(articleWithoutTags.title);
