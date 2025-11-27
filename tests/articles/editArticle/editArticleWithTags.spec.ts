@@ -49,7 +49,6 @@ testParameters.forEach(({ tagsNumber, testNameEnding }) => {
     }) => {
       await viewArticlePage.clickEditArticleButton();
       await editArticlePage.deleteTags(article.tags);
-      await page.waitForTimeout(2000);
       await editArticlePage.clickUpdateArticleButton();
       await viewArticlePage.assertArticleTitleIsVisible(article.title);
       await viewArticlePage.assertArticleTextIsVisible(article.text);
@@ -64,7 +63,6 @@ testParameters.forEach(({ tagsNumber, testNameEnding }) => {
     }) => {
       await viewArticlePage.clickEditArticleButton();
       await editArticlePage.fillInTags(tags);
-      await page.waitForTimeout(2000);
       await editArticlePage.clickUpdateArticleButton();
       await viewArticlePage.assertArticleTitleIsVisible(article.title);
       await viewArticlePage.assertArticleTextIsVisible(article.text);

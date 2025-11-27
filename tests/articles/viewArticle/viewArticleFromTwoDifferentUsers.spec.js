@@ -34,5 +34,5 @@ test('View in your feeds articles from two different users.', async ({
   await homePage.assertArticleDescriptionIsVisible(
     article2.description
   );
-  await homePage.assertArticleAuthorNameIsVisible(users[0].username);
+  await homePage.assertArticleAuthorNameIsVisible(users[1].username);
 });
