@@ -30,6 +30,7 @@ export const test = base.extend<{
 
     await use(user);
   },
+ 
   users: async ({ logger, usersNumber }, use) => {
     const users = Array(usersNumber);
 
