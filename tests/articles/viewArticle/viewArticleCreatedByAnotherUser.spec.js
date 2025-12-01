@@ -1,26 +1,49 @@
+// tests/articles/viewArticle/viewArticlesFromTwoUsersInYourFeed.param.spec.js
 import { test } from '../../_fixtures/fixtures';
 import { ViewArticlePage } from '../../../src/ui/pages/article/ViewArticlePage';
 import { createArticle } from '../../../src/ui/actions/articles/createArticle';
 import { signUpUser } from '../../../src/ui/actions/auth/signUpUser';
+import { generateNewArticleData } from
+  '../../../src/common/testData/generateNewArticleData';
 
-test.use({ contextsNumber: 2, usersNumber: 2 });
+test.use({ contextsNumber: 3, usersNumber: 3 });
 
-test.beforeEach(async ({ pages, users, articleWithoutTags }) => {
-  await signUpUser(pages[0], users[0], 1);
-  await signUpUser(pages[1], users[1], 2);
-  await createArticle(pages[0], articleWithoutTags, 1);
+let articlesByUser;
+
+/** Sign up 3 users and create one article per user (no tags). */
+test.beforeEach(async ({ pages, users, logger }) => {
+  for (let i = 0; i < 3; i++) {
+    await signUpUser(pages[i], users[i], i + 1);
+  }
+
+  articlesByUser = [];
+  for (let i = 0; i < 3; i++) {
+    const article = generateNewArticleData(logger, 0);
+    await createArticle(pages[i], article, i + 1);
+    articlesByUser[i] = article; // createArticle should set article.url
+  }
 });
 
-test('View an article created by another user', async ({
-  articleWithoutTags,
-  pages,
-  users,
-}) => {
-  const viewArticlePage = new ViewArticlePage(pages[1], 2);
+/** Iterate viewers: user1, user2, user3 */
+[0, 1, 2].forEach((viewerIdx) => {
+  test(
+    `Viewer (user${viewerIdx + 1}) can open articles from the other two users`,
+    async ({ pages, users }) => {
+      const viewPage = new ViewArticlePage(pages[viewerIdx], viewerIdx + 1);
 
-  await viewArticlePage.open(articleWithoutTags.url);
+      // The two authors are the two users that are not the viewer
+      const authorIdxs = [0, 1, 2].filter((i) => i !== viewerIdx);
 
-  await viewArticlePage.assertArticleTitleIsVisible(articleWithoutTags.title);
-  await viewArticlePage.assertArticleTextIsVisible(articleWithoutTags.text);
-  await viewArticlePage.assertArticleAuthorNameIsVisible(users[0].username);
+      for (const authorIdx of authorIdxs) {
+        const article = articlesByUser[authorIdx];
+
+        await viewPage.open(article.url);
+        await viewPage.assertArticleTitleIsVisible(article.title);
+        await viewPage.assertArticleTextIsVisible(article.text);
+        await viewPage.assertArticleAuthorNameIsVisible(
+          users[authorIdx].username
+        );
+      }
+    }
+  );
 });
