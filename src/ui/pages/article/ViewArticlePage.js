@@ -5,6 +5,8 @@ export class ViewArticlePage {
     this.page = page;
     this.userId = userId;
     this.articleTitleHeader = page.getByRole('heading');
+    this.editArticleButton = page.getByRole('link', { name: ' Edit Article' }).first();
+    this.tagList = page.locator('.tag-list');
   }
 
   authorLinkInArticleHeader(username) {
@@ -12,7 +14,7 @@ export class ViewArticlePage {
   }
 
   tagListItem(tagName) {
-    return this.page.getByRole('listitem').filter({ hasText: tagName });
+    return this.page.getByRole('listitem').getByText(tagName, { exact: true });
   }
 
   async step(title, stepToRun) {
@@ -21,6 +23,18 @@ export class ViewArticlePage {
 
   url() {
     return this.page.url();
+  }
+
+  slug() {
+    const url = this.page.url();
+    const parts = url.split('/article/');
+    return parts[1];
+  }
+
+  async clickEditArticleButton() {
+    await this.step(`Click the 'Edit Article' button`, async () => {
+      await this.editArticleButton.click();
+    });
   }
 
   async open(url) {
@@ -55,6 +69,13 @@ export class ViewArticlePage {
       for (let i = 0; i < tags.length; i++) {
         await expect(this.tagListItem(tags[i])).toBeVisible();
       }
+    });
+  }
+
+  async assertArticleHasNoTags() {
+    await this.step(`Assert the article has no tags`, async () => {
+      const tagCount = await this.page.locator('.tag-default').count();
+      await expect(tagCount).toBe(0);
     });
   }
 }
