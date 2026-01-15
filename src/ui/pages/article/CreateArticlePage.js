@@ -46,6 +46,7 @@ export class CreateArticlePage {
       for (let i = 0; i < tags.length; i++) {
         await this.tagField.fill(tags[i]);
         await this.page.keyboard.press('Enter');
+        await this.page.waitForTimeout(1000);
       }
     });
   }

@@ -15,7 +15,7 @@ export const test = base.extend<{
     await use(article);
   },
   articleWithOneTag: async ({ logger }, use) => {
-    const article = generateNewArticleData(logger, 1);
+    const article = generateNewArticleData(1);
 
     await use(article);
   },
