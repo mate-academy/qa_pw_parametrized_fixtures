@@ -11,6 +11,32 @@ export class CreateArticlePage {
       name: 'Publish Article',
     });
     this.errorMessage = page.getByRole('list').nth(1);
+    this.tag = page.locator('.tag-pill');
+    this.updateArticleButton = page.getByRole('button', {
+      name: 'Update Article',
+    });
+  }
+
+  async clickUpdateArticleButton() {
+    await this.step(`Click the 'Update Article' button`, async () => {
+      await this.updateArticleButton.click();
+    });
+  }
+
+  getTag(tagName) {
+    return this.tag.filter({hasText: tagName});
+  }
+
+  async removeAllTagsFromArticle(tags) {
+    await this.step(`Remove all tags from article`, async () => {
+      for (let i = 0; i < tags.length; i++) {
+        const closeButton = this.getTag(tags[i])
+          .locator('.ion-close-round');
+        await closeButton.click();
+        await expect(this.getTag(tags[i])).not
+          .toBeVisible();
+      }
+    });
   }
 
   async step(title, stepToRun) {

@@ -6,6 +6,29 @@ export class HomePage {
     this.userId = userId;
     this.yourFeedTab = page.getByText('Your Feed');
     this.newArticleLink = page.getByRole('link', { name: 'New Article' });
+    this.articlePreview = page.locator('.article-preview');
+    this.articlePreviewTitle  = this.articlePreview.locator('h1');
+  }
+
+  async open() {
+    await this.step(`Open the home page`, async () => {
+      await this.page.goto('/');
+    });
+  }
+
+  async assertArticleTitlesAreVisibleInTheFeed(articles) {
+    await this.step(`Assert articles are visible in the feed`, async () => {
+      for (const article of articles) {
+        const title = this.articlePreviewTitle.filter({ hasText: article });
+        await expect(title).toBeVisible();
+      }
+    });
+  }
+
+  async clickYourFeedTab() {
+    await this.step(`Click the 'Your Feed' tab`, async () => {
+      await this.yourFeedTab.click();
+    });
   }
 
   async step(title, stepToRun) {
