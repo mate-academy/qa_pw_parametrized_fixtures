@@ -23,6 +23,34 @@ export class CreateArticlePage {
     });
   }
 
+  async openForEdit(slug) {
+    await this.step(`Open 'Edit article' page`, async () => {
+      await this.page.goto(`/editor/${slug}`);
+    });
+  }
+
+  get submitButton() {
+    return this.page.getByRole('button', {
+      name: /Publish Article|Update Article/,
+    });
+  }
+
+  async clickSubmitButton() {
+    await this.step(`Click submit button`, async () => {
+      await this.submitButton.click();
+    });
+  }
+
+  async removeAllTags() {
+    await this.step(`Remove all tags`, async () => {
+      const tagRemoveButtons = this.page.locator('.tag-list .ion-close-round');
+      const count = await tagRemoveButtons.count();
+      for (let i = 0; i < count; i++) {
+        await tagRemoveButtons.first().click();
+      }
+    });
+  }
+
   async fillTitleField(title) {
     await this.step(`Fill the 'Title' field`, async () => {
       await this.titleField.fill(title);
@@ -53,6 +81,15 @@ export class CreateArticlePage {
   async clickPublishArticleButton() {
     await this.step(`Click the 'Publish Article' button`, async () => {
       await this.publishArticleButton.click();
+    });
+  }
+
+  async submitUpdateArticleForm(article) {
+    await this.step(`Submit the 'Update Article' form`, async () => {
+      if (article.tags && article.tags.length > 0) {
+        await this.fillTagsField(article.tags);
+      }
+      await this.clickSubmitButton();
     });
   }
 

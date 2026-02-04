@@ -5,6 +5,7 @@ export class HomePage {
     this.page = page;
     this.userId = userId;
     this.yourFeedTab = page.getByText('Your Feed');
+    this.globalFeedTab = page.getByText('Global Feed');
     this.newArticleLink = page.getByRole('link', { name: 'New Article' });
   }
 
@@ -21,6 +22,12 @@ export class HomePage {
   async assertYourFeedTabIsVisible() {
     await this.step(`Assert the 'Your Feed' tab is visible`, async () => {
       await expect(this.yourFeedTab).toBeVisible();
+    });
+  }
+
+  async clickGlobalFeedTab() {
+    await this.step(`Click the 'Global Feed' tab`, async () => {
+      await this.globalFeedTab.click();
     });
   }
 }
