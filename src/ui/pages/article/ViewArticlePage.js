@@ -24,7 +24,7 @@ export class ViewArticlePage {
   }
 
   authorLinkInArticleHeader(username) {
-    return this.page.getByRole('link', { username }).first();
+    return this.page.getByRole('link', { name: username }).first();
   }
 
   tagListItem(tagName) {
@@ -101,7 +101,7 @@ export class ViewArticlePage {
     });
   }
 
-  async openHomeUrll() {
+  async openHome() {
     await this.step('Go to home', async () =>{
       await this.page.goto('https://conduit.mate.academy');
     })

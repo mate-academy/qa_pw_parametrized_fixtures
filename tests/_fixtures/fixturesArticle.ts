@@ -11,6 +11,8 @@ export const test = base.extend<{
   createArticlePage;
   viewArticlePage;
   editArticlePage;
+  articleWithoutTags1,
+  articleWithoutTags2,
 }>({
   articleWithoutTags: async ({ logger }, use) => {
     const article = generateNewArticleData(logger);
@@ -37,13 +39,13 @@ export const test = base.extend<{
 
     await use(editArticlePage);
   },
-  articleWithoutTags1: async ({ logger }, use) => {
-    const article = generateNewArticleData(logger, 2);
+  newArticleWithoutTags: async ({ logger }, use) => {
+    const article = generateNewArticleData(logger);
 
     await use(article);
   },
-  articleWithoutTags2: async ({ logger }, use) => {
-    const article = generateNewArticleData(logger, 3);
+  articleWithOneTag: async ({ logger }, use) => {
+    const article = generateNewArticleData(logger, 1);
 
     await use(article);
   },

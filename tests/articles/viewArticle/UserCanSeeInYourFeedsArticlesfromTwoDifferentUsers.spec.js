@@ -25,8 +25,8 @@ test('User can see in your feeds articles from two different users', async ({
   articleWithOneTag,
   pages,
   users,
-  articleWithoutTags1,
-  articleWithoutTags2,
+  newArticleWithoutTags,
+  articleWithOneTag,
   
 }) => {
   const viewArticlePage = new ViewArticlePage(pages[2], 3);
@@ -54,28 +54,28 @@ test('User can see in your feeds articles from two different users', async ({
   await viewArticlePage.unFollowUserLinkToBeVisible(users[1].username);
 
   
-  await createArticle(pages[0], articleWithoutTags1, 1);
-  await createArticle(pages[1], articleWithoutTags2, 2);
+  await createArticle(pages[0], newArticleWithoutTags, 1);
+  await createArticle(pages[1], articleWithOneTag, 2);
 
-  await viewArticlePage.openHomeUrll();
+  await viewArticlePage.openHome();
   await homePage.yourFeedTab.click();
-  await homePage.assertTitleAtGlobalFeedIsVisible(articleWithoutTags1.title);
+  await homePage.assertTitleAtGlobalFeedIsVisible(newArticleWithoutTags.title);
   await homePage.assertDescriptionAtGlobalFeedIsVisible(
-    articleWithoutTags1.title,
-    articleWithoutTags1.description
+    newArticleWithoutTags.title,
+    newArticleWithoutTags.description
   );
   await homePage.assertArticleAuthorAtGlobalFeedIsVisible(
-    articleWithoutTags1.title,
+    newArticleWithoutTags.title,
     users[0].username
   );
 
-   await homePage.assertTitleAtGlobalFeedIsVisible(articleWithoutTags2.title);
+   await homePage.assertTitleAtGlobalFeedIsVisible(articleWithOneTag.title);
   await homePage.assertDescriptionAtGlobalFeedIsVisible(
-    articleWithoutTags2.title,
-    articleWithoutTags2.description
+    articleWithOneTag.title,
+    articleWithOneTag.description
   );
   await homePage.assertArticleAuthorAtGlobalFeedIsVisible(
-    articleWithoutTags2.title,
+    articleWithOneTag.title,
     users[1].username
   );
 });
