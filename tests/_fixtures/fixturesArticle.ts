@@ -2,31 +2,38 @@ import { test as base } from '@playwright/test';
 import { generateNewArticleData } from '../../src/common/testData/generateNewArticleData';
 import { CreateArticlePage } from '../../src/ui/pages/article/CreateArticlePage';
 import { ViewArticlePage } from '../../src/ui/pages/article/ViewArticlePage';
+import { EditArticlePage } from '../../src/ui/pages/article/EditArticlePage';
 
 export const test = base.extend<{
-  articleWithoutTags;
-  articleWithOneTag;
-  createArticlePage;
-  viewArticlePage;
+  articleWithoutTags: any;
+  articleWithOneTag: any;
+  newArticleWithoutTags: any;
+  newArticleWithOneTag: any;
+  createArticlePage: CreateArticlePage;
+  viewArticlePage: ViewArticlePage;
+  editArticlePage: EditArticlePage;
 }>({
   articleWithoutTags: async ({ logger }, use) => {
-    const article = generateNewArticleData(logger);
-
-    await use(article);
+    await use(generateNewArticleData(logger, 0));
   },
   articleWithOneTag: async ({ logger }, use) => {
-    const article = generateNewArticleData(logger, 1);
-
-    await use(article);
+    await use(generateNewArticleData(logger, 1));
   },
-  createArticlePage: async ({ page }, use) => {
-    const createArticlePage = new CreateArticlePage(page);
+  newArticleWithoutTags: async ({ logger }, use) => {
+    await use(generateNewArticleData(logger, 0));
+  },
+  newArticleWithOneTag: async ({ logger }, use) => {
+    await use(generateNewArticleData(logger, 1));
+  },
 
-    await use(createArticlePage);
+  createArticlePage: async ({ page }, use) => {
+    await use(new CreateArticlePage(page));
   },
   viewArticlePage: async ({ page }, use) => {
-    const viewArticlePage = new ViewArticlePage(page);
-
-    await use(viewArticlePage);
+    await use(new ViewArticlePage(page));
+  },
+  editArticlePage: async ({ page }, use) => {
+    await use(new EditArticlePage(page));
   },
 });
+

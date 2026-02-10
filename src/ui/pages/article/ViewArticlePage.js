@@ -5,10 +5,26 @@ export class ViewArticlePage {
     this.page = page;
     this.userId = userId;
     this.articleTitleHeader = page.getByRole('heading');
+    this.editArticleButton = page.getByRole(
+      'link', { name: 'Edit Article' }).nth(1);
+    this.tags = page.locator('ul.tag-list li.tag-pill');
+    
+  }
+
+  followUserLink(username) {
+    return this.page.getByRole('button', 
+      { name: `Follow ${username}` })
+      .first()
+  }
+
+  unFollowUserLink(username) {
+    return this.page.getByRole('button', 
+      { name: `Unfollow ${username}` })
+      .first()
   }
 
   authorLinkInArticleHeader(username) {
-    return this.page.getByRole('link', { username }).first();
+    return this.page.getByRole('link', { name: username }).first();
   }
 
   tagListItem(tagName) {
@@ -56,5 +72,38 @@ export class ViewArticlePage {
         await expect(this.tagListItem(tags[i])).toBeVisible();
       }
     });
+  }
+
+  async ClickEditArticleButton() {
+    await this.step('Click edit article button', async () => {
+      await this.editArticleButton.click();
+    });
+  }
+
+  async assertArticleTagsAreNotVisible(tags) {
+    await this.step(`Assert the article has correct tags`, async () => {
+      for (let i = 0; i < tags.length; i++) {
+        await expect(this.tagListItem(tags[i])).toBeHidden();
+      }
+    });
+  }
+
+
+  async followUserLinkClick(username) {
+    await this.step('Click follow user in viewed adrticle page', async () =>{
+      await this.followUserLink(username).click();
+    });
+  }
+
+  async unFollowUserLinkToBeVisible(username) {
+    await this.step('Unfollow button to be visible', async () =>{
+      await expect(this.unFollowUserLink(username)).toBeVisible();
+    });
+  }
+
+  async openHome() {
+    await this.step('Go to home', async () =>{
+      await this.page.goto('https://conduit.mate.academy');
+    })
   }
 }
