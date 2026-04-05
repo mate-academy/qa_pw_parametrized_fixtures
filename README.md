@@ -11,7 +11,7 @@
 
 ## Task
 
-1. Create a parametrized test for `signUpNegative.spec.js`. Use `signInNegative.spec.js` as an example.
+1. Create a parametrized test for `signUpNegative.spec.js`. Use `signInNegative.spec.js` as an example. 
 2. Create parametrized tests for 1, 2, and 5 tags:
 
     - *User is able to remove all tags from previously created article.*
