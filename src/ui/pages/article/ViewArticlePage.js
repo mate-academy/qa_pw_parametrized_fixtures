@@ -5,14 +5,18 @@ export class ViewArticlePage {
     this.page = page;
     this.userId = userId;
     this.articleTitleHeader = page.getByRole('heading');
+    this.editArticleButton = page.getByRole('link', { name: 'Edit Article' }).first();
+    this.followAuthorButton = page.getByRole('button', { name: /Follow/ }).first();
   }
 
+  
+  
   authorLinkInArticleHeader(username) {
     return this.page.getByRole('link', { username }).first();
   }
 
   tagListItem(tagName) {
-    return this.page.getByRole('listitem').filter({ hasText: tagName });
+    return this.page.locator('li.tag-default', { hasText: new RegExp(`^${tagName}$`) });
   }
 
   async step(title, stepToRun) {
@@ -25,10 +29,28 @@ export class ViewArticlePage {
 
   async open(url) {
     await this.step(`Open 'View Article' page`, async () => {
-      await this.page.goto(url);
+      await this.page.goto(url, { waitUntil: 'domcontentloaded' });
     });
   }
-
+  
+  async clickEditArticleButton() {
+    await this.step(`Click 'Edit Article' button`, async () => {
+      await this.editArticleButton.click();
+    });
+  }
+  async clickFollowAuthorButton() {
+    await this.step(`Click 'Follow Author' button`, async () => {
+      await this.followAuthorButton.click();
+    });
+  }
+  async assertFollowButtonContainsAuthorName(username) {
+    await this.step(`Assert the 'Follow' button contains author name`, async () => {
+      await expect(
+        this.page.getByRole('button', { name: new RegExp(username) }).first()
+      ).toBeVisible();
+    });
+  }
+    
   async assertArticleTitleIsVisible(title) {
     await this.step(`Assert the article has correct title`, async () => {
       await expect(this.articleTitleHeader).toContainText(title);
@@ -54,6 +76,13 @@ export class ViewArticlePage {
     await this.step(`Assert the article has correct tags`, async () => {
       for (let i = 0; i < tags.length; i++) {
         await expect(this.tagListItem(tags[i])).toBeVisible();
+      }
+    });
+  }
+  async assertArticleTagsAreNotVisible(tags) {
+    await this.step(`Assert the article has no tags`, async () => {
+      for (let i = 0; i < tags.length; i++) {
+        await expect(this.tagListItem(tags[i])).toBeHidden();
       }
     });
   }
