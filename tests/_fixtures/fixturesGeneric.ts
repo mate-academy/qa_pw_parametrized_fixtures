@@ -1,17 +1,19 @@
-import { test as base } from '@playwright/test';
+import { test as base, Page } from '@playwright/test';
 import { Logger } from '../../src/common/logger/Logger';
 import { generateNewUserData } from '../../src/common/testData/generateNewUserData';
 
+type UserData = ReturnType<typeof generateNewUserData>;
+
 export const test = base.extend<{
-  usersNumber;
-  contextsNumber;
-  pages;
-  user;
-  users;
-  infoTestLog;
+  usersNumber: number;
+  contextsNumber: number;
+  pages: Page[];
+  user: UserData;
+  users: UserData[];
+  infoTestLog: string;
 },
 {
-  logger;
+  logger: Logger;
 }>({
   usersNumber: [1, { option: true }],
   contextsNumber: [1, { option: true }],

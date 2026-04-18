@@ -6,6 +6,7 @@ export class HomePage {
     this.userId = userId;
     this.yourFeedTab = page.getByText('Your Feed');
     this.newArticleLink = page.getByRole('link', { name: 'New Article' });
+    this.articlesInYourFeed = page.locator('div.article-preview');
   }
 
   async step(title, stepToRun) {
@@ -22,5 +23,20 @@ export class HomePage {
     await this.step(`Assert the 'Your Feed' tab is visible`, async () => {
       await expect(this.yourFeedTab).toBeVisible();
     });
+  }
+
+  async yourFeedTabClick() {
+    await this.step('Click your feed tab', async () => {
+      await this.yourFeedTab.click();
+    });
+  }
+
+  async assertArticlesInYourFeedCount(expectedCount) {
+    await this.step(
+      `Articles in Your Feed count is ${expectedCount}`,
+      async () => {
+        await expect(this.articlesInYourFeed).toHaveCount(expectedCount);
+      },
+    );
   }
 }

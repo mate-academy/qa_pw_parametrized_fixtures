@@ -5,10 +5,15 @@ export class ViewArticlePage {
     this.page = page;
     this.userId = userId;
     this.articleTitleHeader = page.getByRole('heading');
+    this.editArticleButton = page.
+      getByRole('link', { name: 'Edit Article' }).first();
+    this.followButton = page.
+      getByRole('button', { name: 'Follow' }).first();
+    this.homePageButton = page.getByRole('link', { name: 'Home' });
   }
 
   authorLinkInArticleHeader(username) {
-    return this.page.getByRole('link', { username }).first();
+    return this.page.getByRole('link', { name: username }).first();
   }
 
   tagListItem(tagName) {
@@ -55,6 +60,24 @@ export class ViewArticlePage {
       for (let i = 0; i < tags.length; i++) {
         await expect(this.tagListItem(tags[i])).toBeVisible();
       }
+    });
+  }
+
+  async editArticleButtonClick() {
+    await this.step(`Click edit button`, async () => {
+      await this.editArticleButton.click();
+    });
+  }
+
+  async followButtonClick() {
+    await this.step(`Click follow button`, async () => {
+      await this.followButton.click();
+    });
+  }
+
+  async homeButtonClick() {
+    await this.step(`Click home button`, async () => {
+      await this.homePageButton.click();
     });
   }
 }
