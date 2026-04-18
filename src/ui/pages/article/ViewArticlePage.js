@@ -5,10 +5,13 @@ export class ViewArticlePage {
     this.page = page;
     this.userId = userId;
     this.articleTitleHeader = page.getByRole('heading');
+    this.editArticleButton = page
+      .getByRole('link', { name: 'Edit Article' })
+      .nth(1);
   }
 
   authorLinkInArticleHeader(username) {
-    return this.page.getByRole('link', { username }).first();
+    return this.page.getByRole('link', { name: username }).first();
   }
 
   tagListItem(tagName) {
@@ -26,6 +29,12 @@ export class ViewArticlePage {
   async open(url) {
     await this.step(`Open 'View Article' page`, async () => {
       await this.page.goto(url);
+    });
+  }
+
+  async clickEditArticleButton() {
+    await this.step('Click edit article button', async () => {
+      await this.editArticleButton.click();
     });
   }
 
@@ -52,8 +61,19 @@ export class ViewArticlePage {
 
   async assertArticleTagsAreVisible(tags) {
     await this.step(`Assert the article has correct tags`, async () => {
+      await this.page.waitForURL(/\/article\/.*/, { waitUntil: 'commit' });
+      await this.page.reload({ waitUntil: 'commit' });
       for (let i = 0; i < tags.length; i++) {
         await expect(this.tagListItem(tags[i])).toBeVisible();
+      }
+    });
+  }
+  async assertArticleTagsAreNotVisible(tags) {
+    await this.step(`Assert the article tags are removed`, async () => {
+      await this.page.waitForURL(/\/article\/.*/, { waitUntil: 'commit' });
+      await this.page.reload({ waitUntil: 'commit' });
+      for (let i = 0; i < tags.length; i++) {
+        await expect(this.tagListItem(tags[i])).toBeHidden();
       }
     });
   }

@@ -5,31 +5,44 @@ import {
   EMPTY_PASSWORD_MESSAGE,
 } from '../../src/ui/constants/authErrorMessages';
 
-test.describe('Sign up negative tests', () => {
-  test('Sign up with empty username', async ({ user, signUpPage }) => {
-    await signUpPage.open();
-    await signUpPage.fillEmailField(user.email);
-    await signUpPage.fillPasswordField(user.password);
-    await signUpPage.clickSignUpButton();
+import { generateNewUserData } from '../../src/common/testData/generateNewUserData';
 
-    await signUpPage.assertErrorMessageContainsText(EMPTY_USERNAME_MESSAGE);
-  });
+const testParameters = [
+  {
+    message: EMPTY_USERNAME_MESSAGE,
+    title: 'empty username',
+    fieldToEmpty: 'username',
+  },
+  {
+    message: INVALID_EMAIL_MESSAGE,
+    title: 'empty email',
+    fieldToEmpty: 'email',
+  },
+  {
+    message: EMPTY_PASSWORD_MESSAGE,
+    title: 'empty password',
+    fieldToEmpty: 'password',
+  },
+];
 
-  test('Sign up with empty email', async ({ user, signUpPage }) => {
-    await signUpPage.open();
-    await signUpPage.fillUsernameField(user.username);
-    await signUpPage.fillPasswordField(user.password);
-    await signUpPage.clickSignUpButton();
+testParameters.forEach(({ message, title, fieldToEmpty }) => {
+  test.describe('Sign up negative tests', () => {
+    test(`Sign up with ${title}`, async ({ signUpPage }) => {
+      const user = generateNewUserData();
 
-    await signUpPage.assertErrorMessageContainsText(INVALID_EMAIL_MESSAGE);
-  });
+      const payload = {
+        username: fieldToEmpty === 'username' ? '' : user.username,
+        email: fieldToEmpty === 'email' ? '' : user.email,
+        password: fieldToEmpty === 'password' ? '' : user.password,
+      };
 
-  test('Sign up with empty password', async ({ user, signUpPage }) => {
-    await signUpPage.open();
-    await signUpPage.fillUsernameField(user.username);
-    await signUpPage.fillEmailField(user.email);
-    await signUpPage.clickSignUpButton();
+      await signUpPage.open();
+      await signUpPage.fillUsernameField(payload.username);
+      await signUpPage.fillEmailField(payload.email);
+      await signUpPage.fillPasswordField(payload.password);
+      await signUpPage.clickSignUpButton();
 
-    await signUpPage.assertErrorMessageContainsText(EMPTY_PASSWORD_MESSAGE);
+      await signUpPage.assertErrorMessageContainsText(message);
+    });
   });
 });

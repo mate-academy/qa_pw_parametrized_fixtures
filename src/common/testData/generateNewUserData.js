@@ -1,11 +1,11 @@
 import { faker } from '@faker-js/faker';
 
-export function generateNewUserData(logger = null) {
+export function generateNewUserData(logger) {
   const firstName = faker.person.firstName();
   const lastName = faker.person.lastName();
 
   const user = {
-    username: `${firstName}_${lastName}`.replaceAll(`'`).toLowerCase(),
+    username: `${firstName}_${lastName}`.replaceAll("'", '').toLowerCase(),
     email: `${firstName}_${faker.internet.email()}`.toLowerCase(),
     password: faker.internet.password(),
   };
