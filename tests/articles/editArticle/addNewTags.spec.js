@@ -17,10 +17,11 @@ testParameters.forEach(({ tagsNumber, testNameEnding }) => {
     test.beforeEach(async ({ page, user, logger }) => {
       article = generateNewArticleData(logger, tagsNumber);
       newTag = faker.lorem.word();
-      article.tags.push(newTag);
 
       await signUpUser(page, user);
       await createArticle(page, article);
+
+      article.tags.push(newTag);
     });
 
     test(`Add new tag to article with ${testNameEnding}`, async ({

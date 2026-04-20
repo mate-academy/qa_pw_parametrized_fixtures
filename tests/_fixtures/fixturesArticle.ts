@@ -5,10 +5,10 @@ import { ViewArticlePage } from '../../src/ui/pages/article/ViewArticlePage';
 import { EditArticlePage } from '../../src/ui/pages/article/EditArticlePage'
 
 export const test = base.extend<{
-  articleWithoutTags;
-  articleWithOneTag;
-  createArticlePage;
-  viewArticlePage;
+  articleWithoutTags: any;
+  articleWithOneTag: any;
+  createArticlePage: CreateArticlePage;
+  viewArticlePage: ViewArticlePage;
   editArticlePage: EditArticlePage;
 }>({
   articleWithoutTags: async ({ logger }, use) => {

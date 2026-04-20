@@ -13,7 +13,7 @@ export class ViewArticlePage {
   }
 
   authorLinkInArticleHeader(username) {
-    return this.page.getByRole('link', { username }).first();
+    return this.page.getByRole('link', { name: username }).first();
   }
 
   tagListItem(tagName) {
@@ -36,7 +36,7 @@ export class ViewArticlePage {
 
   async wait() {
     await this.step(`Waiting for article page`, async() => {
-      this.page.waitForURL(/article/);
+      await this.page.waitForURL(/article/);
     });
   }
 
@@ -88,7 +88,7 @@ export class ViewArticlePage {
   }
 
   async assertTagsListHasNoTags() {
-    this.step(`Article hasn't tags`, async() => {
+    await this.step(`Article hasn't tags`, async() => {
       await expect (this.tagsList).toBeHidden();
     });
   }
