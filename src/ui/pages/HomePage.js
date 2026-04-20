@@ -23,4 +23,14 @@ export class HomePage {
       await expect(this.yourFeedTab).toBeVisible();
     });
   }
+
+  articleTitle(title) {
+    return this.page.getByRole('link', {name: title});
+  }
+
+  async assertArticleTitleIsVisible(title) {
+    await this.step(`Assert article title is on the Your Feed`, async() => {
+      await expect(this.articleTitle(title)).toBeVisible();
+    })
+  }
 }
