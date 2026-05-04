@@ -12,6 +12,12 @@ export class HomePage {
     return await testStep(title, stepToRun, this.userId);
   }
 
+  async open() {
+    await this.step(`Open 'Home' page`, async () => {
+      await this.page.goto('/');
+    });
+  }
+
   async clickNewArticleLink() {
     await this.step(`Click the 'New Article' link`, async () => {
       await this.newArticleLink.click();
@@ -21,6 +27,33 @@ export class HomePage {
   async assertYourFeedTabIsVisible() {
     await this.step(`Assert the 'Your Feed' tab is visible`, async () => {
       await expect(this.yourFeedTab).toBeVisible();
+    });
+  }
+
+  async assertArticleAuthorNameIsVisible(authorName) {
+    await this.step(`Assert article author name is visible`, async () => {
+      const articleAuthorName = this.page
+        .getByRole('link', {
+          name: authorName,
+        })
+        .first();
+      await expect(articleAuthorName).toBeVisible();
+    });
+  }
+
+  async assertArticleTitleIsVisible(title) {
+    await this.step(`Assert article title is visible`, async () => {
+      const articleTitle = this.page.getByRole('link', { name: title });
+      await expect(articleTitle).toBeVisible();
+    });
+  }
+
+  async assertArticleDescriptionIsVisible(description) {
+    await this.step(`Assert article description is visible`, async () => {
+      const articleDescription = this.page.getByRole('link', {
+        name: description,
+      });
+      await expect(articleDescription).toBeVisible();
     });
   }
 }
