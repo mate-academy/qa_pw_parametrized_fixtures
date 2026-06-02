@@ -13,14 +13,14 @@ const testParameters = [
 ];
 
 testParameters.forEach(({ tagsNumber, testNameEnding  }) => {
-  test.describe('Create and article with tags', () => {
+  test.describe('Removing tags from a previously created article', () => {
     test.beforeEach(async ({ page, user, logger }) => {
       await signUpUser(page, user);
       article = generateNewArticleData(logger);
       await createArticle(page, article);
     });
 
-    test(`Create an article with ${testNameEnding}`, async ({
+    test(`User is able to remove all tags from previously created article`, async ({
       homePage,
       createArticlePage,
       viewArticlePage,

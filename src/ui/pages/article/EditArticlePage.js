@@ -41,8 +41,10 @@ export class EditArticlePage {
   }
 
   async clickOnDeleteTag(tagName) {
-    const tagSpan = this.page.locator('span', { hasText: tagName })
+    await this.step(`Click on delete button for tag ${tagName}`, async () => {
+    const tagSpan = this.page.locator('span', { hasText: tagName });
      await tagSpan.locator('i').click();
+});
 
 }
   
