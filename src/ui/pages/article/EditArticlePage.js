@@ -5,6 +5,8 @@ export class EditArticlePage {
     this.page = page;
     this.userId = userId;
     this.articleTitleHeader = page.getByRole('heading');
+    this.tagField = page.getByPlaceholder('Enter tags');
+    this.updateArticleButton = page.getByRole('button', { name: 'Update Article' });
   }
 
   async step(title, stepToRun) {
@@ -17,9 +19,31 @@ export class EditArticlePage {
     });
   }
 
+  async fillTagField(tags) {
+    await this.step(`Fill 'Tag' field with ${tags} tags`, async () => {
+      for (const tag of tags) {
+        await this.tagField.fill(tag);
+        await this.tagField.press('Enter');
+      }
+    });
+  }
+
+  async clickUpdateArticleButton() {
+    await this.step(`Click 'Update Article' button`, async () => {
+      await this.updateArticleButton.click();
+    });
+   }
+
   async assertArticleText(text) {
     await this.step(`Assert the article has correct text'`, async () => {
       await expect(this.page.getByText(text)).toBeVisible();
     });
   }
+
+  async clickOnDeleteTag(tagName) {
+    const tagSpan = this.page.locator('span', { hasText: tagName })
+     await tagSpan.locator('i').click();
+
+}
+  
 }
