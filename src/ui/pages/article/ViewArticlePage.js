@@ -65,9 +65,11 @@ export class ViewArticlePage {
     });
   }
 
-  async assertTagIsNotVisible(tagName) {
-    await this.step(`Assert the tag ${tagName} is not visible`, async () => {
-      await expect(this.tagListItem(tagName)).toBeHidden();
+  async assertTagIsNotVisible(tags) {
+    await this.step(`Assert the article has no tags`, async () => {
+      for (let i = 0; i < tags.length; i++) {
+        await expect(this.tagListItem(tags[i])).toBeHidden();
+      }
     });
   }
 }

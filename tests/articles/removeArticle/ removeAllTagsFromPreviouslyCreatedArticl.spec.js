@@ -45,7 +45,6 @@ testParameters.forEach(({ tagsNumber, testNameEnding  }) => {
         await editArticlePage.clickUpdateArticleButton();
         await viewArticlePage.page.waitForTimeout(1000);
         await viewArticlePage.page.reload();
-
         await viewArticlePage.assertTagIsNotVisible(newTags.tags);
         
 
