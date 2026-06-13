@@ -42,12 +42,16 @@ export class CreateArticlePage {
   }
 
   async fillTagsField(tags) {
-      await this.step(`Fill the 'Tags' field`, async () => {
-          for (let i = 0; i < tags.length; i++) {
-              await this.tagField.fill(tags[i]);
-              await this.page.keyboard.press('Enter');
-          }
-      });
+    if (!Array.isArray(tags) || tags.length === 0) {
+      return;
+    }
+
+    await this.step(`Fill the 'Tags' field`, async () => {
+      for (let i = 0; i < tags.length; i++) {
+        await this.tagField.fill(tags[i]);
+        await this.page.keyboard.press('Enter');
+      }
+    });
   }
 
   async clickPublishArticleButton() {
@@ -62,7 +66,7 @@ export class CreateArticlePage {
       await this.fillDescriptionField(article.description);
       await this.fillTextField(article.text);
 
-      if (article.tags.length > 0) {
+      if (Array.isArray(article.tags) && article.tags.length > 0) {
         await this.fillTagsField(article.tags);
       }
       await this.clickPublishArticleButton();

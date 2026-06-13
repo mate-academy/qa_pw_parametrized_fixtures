@@ -26,7 +26,7 @@ const params = [
         username: 'validName',
         email: '',
         password: '123somePass321',
-        errorMessage: INVALID_EMAIL_MESSAGE,
+        errorMessage: EMPTY_EMAIL_MESSAGE,
     },
     {
         testName: 'Sign up with empty password',
@@ -39,9 +39,9 @@ const params = [
 
 test.describe('Sign up negative tests', () => {
     params.forEach(({ testName, username, email, password, errorMessage }) => {
-        test(testName, async({signUpPage}) => {
+        test(testName, async ({ signUpPage }) => {
             await signUpPage.open();
-            await signUpPage.fillUsernameField(username)
+            await signUpPage.fillUsernameField(username);
             if (email) {
                 await signUpPage.fillEmailField(email);
             }
@@ -49,6 +49,6 @@ test.describe('Sign up negative tests', () => {
             await signUpPage.clickSignUpButton();
 
             await signUpPage.assertErrorMessageContainsText(errorMessage);
-        })
-    })
-})
+        });
+    });
+});

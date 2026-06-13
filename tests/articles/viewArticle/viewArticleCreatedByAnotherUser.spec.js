@@ -9,18 +9,18 @@ test.beforeEach(async ({ pages, users, articlesWithoutTags }) => {
     await signUpUser(pages[0], users[0], 1);
     await signUpUser(pages[1], users[1], 2);
     await signUpUser(pages[2], users[2], 3);
-    await createArticle(pages[0], articlesWithoutTags[0], 1);
-    await createArticle(pages[1], articlesWithoutTags[1], 2);
+    articlesWithoutTags[0] = await createArticle(pages[0], articlesWithoutTags[0], 1);
+    articlesWithoutTags[1] = await createArticle(pages[1], articlesWithoutTags[1], 2);
 });
 
 test('View an article created by another user', async ({ articlesWithoutTags, pages, users }) => {
     await checkCreatedArticle(articlesWithoutTags[0], users[0], pages[2]);
-})
+});
 
 test('View an articles created by two other users', async ({ articlesWithoutTags, pages, users }) => {
     await checkCreatedArticle(articlesWithoutTags[0], users[0], pages[2]);
     await checkCreatedArticle(articlesWithoutTags[1], users[1], pages[2]);
-})
+});
 
 async function checkCreatedArticle(article, user, page) {
     const viewArticlePage = new ViewArticlePage(page);

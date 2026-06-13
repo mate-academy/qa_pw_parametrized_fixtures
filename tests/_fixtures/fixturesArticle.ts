@@ -19,13 +19,13 @@ export const test = base.extend<{
     tagsNum: [0, {option: true}],
 
     articlesWithoutTags: async ({ logger, articlesNumber }, use) => {
-        let articles = Array(articlesNumber)
+        let articles = Array(articlesNumber);
 
         for (let i = 0; i < articlesNumber; i++) {
-            articles[i] = generateNewArticleData(logger)
+            articles[i] = generateNewArticleData(logger);
         }
 
-        use(articles)
+        await use(articles);
     },
     articleWithoutTags: async ({ logger }, use) => {
         const article = generateNewArticleData(logger);
@@ -53,7 +53,7 @@ export const test = base.extend<{
         await use(viewArticlePage);
     },
     editArticlePage: async ({ page }, use) => {
-        const editArticlePage = new EditArticlePage(page)
+        const editArticlePage = new EditArticlePage(page);
 
         await use(editArticlePage);
     }

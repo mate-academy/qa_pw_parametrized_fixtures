@@ -4,7 +4,7 @@ export class ViewArticlePage {
     constructor(page) {
         this.page = page;
         this.articleTitleHeader = page.getByRole('heading');
-        this.tags = page.locator('.tag-list').getByRole('listitem')
+        this.tags = page.locator('.tag-list').getByRole('listitem');
         this.editButton = page.getByRole('link', { name: 'Edit Article', exact: false }).first();
     }
 
@@ -41,7 +41,7 @@ export class ViewArticlePage {
     async assertArticleTagsAreNotVisible(tags) {
         await test.step(`Assert the article has no specified tags`, async () => {
             for (let i = 0; i < tags.length; i++) {
-                await expect(this.tags.filter({ hasText: new RegExp(`^${tags[i]}`) }) ).not.toBeVisible()
+                await expect(this.tags.filter({ hasText: new RegExp(`^${tags[i]}`) })).not.toBeVisible();
             }
         });
     }
@@ -49,7 +49,7 @@ export class ViewArticlePage {
     async assertArticleTagsAreVisible(tags) {
         await test.step(`Assert the article has correct tags`, async () => {
             for (let i = 0; i < tags.length; i++) {
-                await expect(this.tags.filter({ hasText: new RegExp(`^${tags[i]}`) }) ).toBeVisible();
+                await expect(this.tags.filter({ hasText: new RegExp(`^${tags[i]}`) })).toBeVisible();
             }
         });
     }

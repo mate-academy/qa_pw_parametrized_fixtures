@@ -13,14 +13,14 @@ export class EditArticlePage {
 
     async clickUpdateArticleButton() {
         await test.step(`Update Article Button`, async () => {
-            await this.updateArticleButton.click()
-        })
+            await this.updateArticleButton.click();
+        });
     }
 
     async waitForArticleTitle() {
         await test.step(`Wait for Article Title`, async () => {
             await this.titleField.waitFor({state: 'visible'});
-        })
+        });
     }
 
     async fillTitleField(title) {

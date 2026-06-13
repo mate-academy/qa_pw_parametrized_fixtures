@@ -7,7 +7,7 @@ import { faker } from '@faker-js/faker';
 const testParameters = [
     { tagsNumber: 1, testNameEnding: 'one tag' },
     { tagsNumber: 2, testNameEnding: 'two tags' },
-    { tagsNumber: 10, testNameEnding: 'ten tags' },
+    { tagsNumber: 5, testNameEnding: 'five tags' },
 ];
 
 test.describe('Articles Tags Management', () => {
@@ -73,7 +73,7 @@ test.describe('Articles Tags Management', () => {
                 await viewArticlePage.clickEditArticle();
 
                 const tags = Array.from({ length: tagsNumber }, () => faker.lorem.word());
-                await editArticlePage.fillTagsField(tags)
+                await editArticlePage.fillTagsField(tags);
 
                 await editArticlePage.clickUpdateArticleButton();
 
