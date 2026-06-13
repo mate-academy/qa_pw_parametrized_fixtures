@@ -5,37 +5,39 @@ import eslintConfigPrettier from 'eslint-config-prettier';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-  {
-    ignores: [
-      '**/node_modules/*',
-      'playwright.config.js',
-      '**/playwright-report/**',
-    ],
-  },
-  { languageOptions: { globals: globals.node } },
-  eslintConfigPrettier,
-  {
-    ...pluginJs.configs.recommended,
-    ...playwright.configs['flat/recommended'],
-    rules: {
-      ...pluginJs.configs.recommended.rules,
-      'no-unused-vars': 'error',
-      'max-len': [
-        'error',
-        {
-          code: 80,
-          comments: 80,
-          ignorePattern: 'import *',
+    {
+        ignores: [
+            '**/node_modules/*',
+            'playwright.config.js',
+            '**/playwright-report/**',
+        ],
+    },
+    { languageOptions: { globals: globals.node } },
+    eslintConfigPrettier,
+    {
+        ...pluginJs.configs.recommended,
+        ...playwright.configs['flat/recommended'],
+        rules: {
+            ...pluginJs.configs.recommended.rules,
+            'no-unused-vars': 'error',
+            'max-len': [
+                'error',
+                {
+                    code: 120,
+                    comments: 120,
+                    ignorePattern: 'import *',
+                },
+            ],
+            ...playwright.configs['flat/recommended'].rules,
+            'playwright/expect-expect': 'off',
+
+            'playwright/valid-title': ['error', { allowStringVariables: true }],
         },
-      ],
-      ...playwright.configs['flat/recommended'].rules,
-      'playwright/expect-expect': 'off',
     },
-  },
-  {
-    rules: {
-      'no-unused-vars': 'off',
+    {
+        rules: {
+            'no-unused-vars': 'off',
+        },
+        files: ['**/*.spec.js'],
     },
-    files: ['**/*.spec.js'],
-  },
 ];

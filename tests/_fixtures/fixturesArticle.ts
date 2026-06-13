@@ -2,31 +2,59 @@ import { test as base } from '@playwright/test';
 import { generateNewArticleData } from '../../src/common/testData/generateNewArticleData';
 import { CreateArticlePage } from '../../src/ui/pages/article/CreateArticlePage';
 import { ViewArticlePage } from '../../src/ui/pages/article/ViewArticlePage';
+import { EditArticlePage } from '../../src/ui/pages/article/EditArticlePage';
 
 export const test = base.extend<{
-  articleWithoutTags;
-  articleWithOneTag;
-  createArticlePage;
-  viewArticlePage;
+    articleWithoutTags;
+    articleWithOneTag;
+    articleWithManyTags;
+    createArticlePage;
+    viewArticlePage;
+    tagsNum;
+    editArticlePage;
+    articlesNumber;
+    articlesWithoutTags;
 }>({
-  articleWithoutTags: async ({ logger }, use) => {
-    const article = generateNewArticleData(logger);
+    articlesNumber: [0, {option: true}],
+    tagsNum: [0, {option: true}],
 
-    await use(article);
-  },
-  articleWithOneTag: async ({ logger }, use) => {
-    const article = generateNewArticleData(logger, 1);
+    articlesWithoutTags: async ({ logger, articlesNumber }, use) => {
+        let articles = Array(articlesNumber);
 
-    await use(article);
-  },
-  createArticlePage: async ({ page }, use) => {
-    const createArticlePage = new CreateArticlePage(page);
+        for (let i = 0; i < articlesNumber; i++) {
+            articles[i] = generateNewArticleData(logger);
+        }
 
-    await use(createArticlePage);
-  },
-  viewArticlePage: async ({ page }, use) => {
-    const viewArticlePage = new ViewArticlePage(page);
+        await use(articles);
+    },
+    articleWithoutTags: async ({ logger }, use) => {
+        const article = generateNewArticleData(logger);
 
-    await use(viewArticlePage);
-  },
+        await use(article);
+    },
+    articleWithOneTag: async ({ logger }, use) => {
+        const article = generateNewArticleData(logger, 1);
+
+        await use(article);
+    },
+    articleWithManyTags: async ({ logger, tagsNum }, use) => {
+        const article = generateNewArticleData(logger, tagsNum);
+
+        await use(article);
+    },
+    createArticlePage: async ({ page }, use) => {
+        const createArticlePage = new CreateArticlePage(page);
+
+        await use(createArticlePage);
+    },
+    viewArticlePage: async ({ page }, use) => {
+        const viewArticlePage = new ViewArticlePage(page);
+
+        await use(viewArticlePage);
+    },
+    editArticlePage: async ({ page }, use) => {
+        const editArticlePage = new EditArticlePage(page);
+
+        await use(editArticlePage);
+    }
 });
