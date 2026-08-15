@@ -11,7 +11,7 @@ export class ViewArticlePage {
   }
 
   authorLinkInArticleHeader(username) {
-    return this.page.getByRole('link', { username }).first();
+    return this.page.getByRole('link', { name: username }).first();
   }
 
   tagListItem(tagName) {
@@ -70,7 +70,7 @@ export class ViewArticlePage {
   async assertArticleTagsAreNotVisible(tags) {
     await this.step(`Assert the article has no tags`, async () => {
       for (let i = 0; i < tags.length; i++) {
-        await expect(this.tagListItem(tags[i])).not.toBeVisible();
+        await expect(this.tagListItem(tags[i])).toBeHidden();
       }
     });
   }

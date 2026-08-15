@@ -57,7 +57,7 @@ export class EditArticlePage {
     await this.step(`Fill the 'Tags' field`, async () => {
       for (let i = 0; i < tags.length; i++) {
         await this.tagField.fill(tags[i]);
-        await this.page.keyboard.press('Enter');
+        await await this.tagField.press('Enter');
       }
     });
   }
