@@ -5,6 +5,7 @@ export class ViewArticlePage {
     this.page = page;
     this.userId = userId;
     this.articleTitleHeader = page.getByRole('heading');
+    this.editButton = page.getByRole('link', { name: ' Edit Article' }).first();
   }
 
   authorLinkInArticleHeader(username) {
@@ -26,6 +27,12 @@ export class ViewArticlePage {
   async open(url) {
     await this.step(`Open 'View Article' page`, async () => {
       await this.page.goto(url);
+    });
+  }
+
+    async clickEditArticleButton() {
+    await this.step(`Click the 'Edit Article' button`, async () => {
+      await this.editButton.click();
     });
   }
 
@@ -57,4 +64,32 @@ export class ViewArticlePage {
       }
     });
   }
+
+  async assertArticleTagsAreNotVisible(tags) {
+  await this.step(`Assert the article has no tags`, async () => {
+    for (let i = 0; i < tags.length; i++) {
+      await expect(this.tagListItem(tags[i])).toBeHidden();
+    }
+  });
+  }
+  async clickFollowButton(username) {
+    await this.step(`Click the 'Follow ${username}' button`, async () => {
+      const followButton = this.page.getByRole('button', {
+        name: `Follow ${username}`,
+      }).first();
+      await followButton.click();
+    }
+   );
+  }
+
+  async assertUnfollowButtonIsVisible(username) {
+    // eslint-disable-next-line max-len
+    await this.step(`Assert the 'Unfollow ${username}' button is visible`, async () => {
+      const unfollowButton = this.page.getByRole('button', {
+        name: `Unfollow ${username}`,
+      });
+      await expect(unfollowButton).toBeVisible();
+    });
+  }
+
 }
