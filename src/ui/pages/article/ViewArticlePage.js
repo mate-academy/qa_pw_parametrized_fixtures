@@ -5,6 +5,10 @@ export class ViewArticlePage {
     this.page = page;
     this.userId = userId;
     this.articleTitleHeader = page.getByRole('heading');
+    
+    this.editArticleButton = page
+    .getByRole('link', { name: 'Edit Article' })
+    .first();
   }
 
   authorLinkInArticleHeader(username) {
@@ -12,7 +16,9 @@ export class ViewArticlePage {
   }
 
   tagListItem(tagName) {
-    return this.page.getByRole('listitem').filter({ hasText: tagName });
+    return this.page
+    .locator('.tag-list .tag-pill')
+    .filter({ hasText: new RegExp(`^${tagName}$`) });
   }
 
   async step(title, stepToRun) {
@@ -26,6 +32,20 @@ export class ViewArticlePage {
   async open(url) {
     await this.step(`Open 'View Article' page`, async () => {
       await this.page.goto(url);
+    });
+  }
+
+  async clickEditArticle() {
+    await this.step(`Click on the Edit Article button`, async () => {
+      await this.editArticleButton.click();
+    });
+  }
+
+  async assertArticleTagsAreRemoved(tags) {
+    await this.step(`Assert the article tags are removed`, async () => {
+      for (let i = 0; i < tags.length; i++) {
+        await expect(this.tagListItem(tags[i])).toBeHidden();
+      }
     });
   }
 
@@ -54,6 +74,14 @@ export class ViewArticlePage {
     await this.step(`Assert the article has correct tags`, async () => {
       for (let i = 0; i < tags.length; i++) {
         await expect(this.tagListItem(tags[i])).toBeVisible();
+      }
+    });
+  }
+
+  async assertArticleTagsAreNotVisible(tags) {
+    await this.step(`Assert the article tags are not visible`, async () => {
+      for (let i = 0; i < tags.length; i++) {
+        await expect(this.tagListItem(tags[i])).not.toBeVisible();
       }
     });
   }
