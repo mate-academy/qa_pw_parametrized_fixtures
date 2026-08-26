@@ -5,6 +5,10 @@ export class ViewArticlePage {
     this.page = page;
     this.userId = userId;
     this.articleTitleHeader = page.getByRole('heading');
+    this.editArticleButton = page
+      .getByRole('link', { name: ' Edit Article' })
+      .first();
+    this.followButton = page.getByRole('button', { name: /Follow/ }).first();
   }
 
   authorLinkInArticleHeader(username) {
@@ -29,9 +33,32 @@ export class ViewArticlePage {
     });
   }
 
+  async clickEditArticleButton() {
+    await this.step(`Click the 'Edit Article' button`, async () => {
+      await Promise.all([
+        this.page.waitForURL(/\/editor\//),
+        this.editArticleButton.click(),
+      ]);
+    });
+  }
+
+  async clickFollowAuthorButton() {
+    await this.step(`Click the 'Follow Author' button`, async () => {
+      await this.followButton.click();
+    });
+  }
+
   async assertArticleTitleIsVisible(title) {
     await this.step(`Assert the article has correct title`, async () => {
       await expect(this.articleTitleHeader).toContainText(title);
+    });
+  }
+
+  async assertArticleTagsAreNotVisible(tags) {
+    await this.step(`Assert the article has no tags`, async () => {
+      for (let i = 0; i < tags.length; i++) {
+        await expect(this.tagListItem(tags[i])).not.toBeVisible();
+      }
     });
   }
 
