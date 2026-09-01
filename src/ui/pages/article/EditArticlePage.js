@@ -13,13 +13,13 @@ export class EditArticlePage {
   }
 
   async assertArticleTitle(title) {
-    await this.step(`Assert the article has correct title'`, async () => {
+    await this.step(`Assert the article has correct title`, async () => {
       await expect(this.articleTitleHeader).toContainText(title);
     });
   }
 
   async assertArticleText(text) {
-    await this.step(`Assert the article has correct text'`, async () => {
+    await this.step(`Assert the article has correct text`, async () => {
       await expect(this.page.getByText(text)).toBeVisible();
     });
   }
@@ -37,7 +37,7 @@ export class EditArticlePage {
         await this.page
           .locator('.tag-default.tag-pill') // the tag pill class
           .filter({ hasText: tag })
-          .locator('i') // the X icon
+          .locator('button, i, .ion-close-round')
           .click();
       }
     });
