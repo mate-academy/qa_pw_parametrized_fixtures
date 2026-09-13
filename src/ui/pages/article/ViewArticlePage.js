@@ -5,10 +5,19 @@ export class ViewArticlePage {
     this.page = page;
     this.userId = userId;
     this.articleTitleHeader = page.getByRole('heading');
+    this.editArticleButton = page
+      .getByRole('link', { name: ' Edit Article' })
+      .first();
+    this.followUserButton = page
+      .getByRole('button', { name: '   Follow ' })
+      .first();
+    this.unfollowUserButton = page
+      .getByRole('button', { name: '   Unfollow ' })
+      .first();
   }
 
   authorLinkInArticleHeader(username) {
-    return this.page.getByRole('link', { username }).first();
+    return this.page.getByRole('link', { name: username }).first();
   }
 
   tagListItem(tagName) {
@@ -26,6 +35,23 @@ export class ViewArticlePage {
   async open(url) {
     await this.step(`Open 'View Article' page`, async () => {
       await this.page.goto(url);
+    });
+  }
+
+  async clickEditArticleButton() {
+    await this.step(`Click 'Edit Article' button`, async () => {
+      await this.editArticleButton.click();
+    });
+  }
+  async clickFollowUserButton() {
+    await this.step('Click on "Follow User" button', async () => {
+      await this.followUserButton.click();
+    });
+  }
+
+  async clickUnfollowUserButton() {
+    await this.step('Click on "Unfollow User" button', async () => {
+      await this.unfollowUserButton.click();
     });
   }
 
@@ -54,6 +80,13 @@ export class ViewArticlePage {
     await this.step(`Assert the article has correct tags`, async () => {
       for (let i = 0; i < tags.length; i++) {
         await expect(this.tagListItem(tags[i])).toBeVisible();
+      }
+    });
+  }
+  async assertArticleTagsAreNotVisible(tags) {
+    await this.step(`Assert the article does Not have tags`, async () => {
+      for (let i = 0; i < tags.length; i++) {
+        await expect(this.tagListItem(tags[i])).toBeHidden();
       }
     });
   }
