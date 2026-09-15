@@ -23,4 +23,13 @@ export class HomePage {
       await expect(this.yourFeedTab).toBeVisible();
     });
   }
+  async assertArticleTitleUser1(page = this.page, title) {
+    await this.step(`View article in your feed`, async () => {
+      await expect(
+        page
+          .getByRole('link', { name: 'Article title:' })
+          .filter({ hasText: title }),
+      ).toContainText(title);
+    });
+  }
 }

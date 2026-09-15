@@ -5,6 +5,12 @@ export class ViewArticlePage {
     this.page = page;
     this.userId = userId;
     this.articleTitleHeader = page.getByRole('heading');
+    this.editArticleButton = page
+      .getByRole('link', { name: ' Edit Article' })
+      .first();
+    this.updateArticleButton = page.getByRole('button', {
+      name: 'Update Article',
+    });
   }
 
   authorLinkInArticleHeader(username) {
@@ -13,6 +19,9 @@ export class ViewArticlePage {
 
   tagListItem(tagName) {
     return this.page.getByRole('listitem').filter({ hasText: tagName });
+  }
+  tagListItemDelete(tagName) {
+    return this.page.locator('span').filter({ hasText: tagName }).locator('i');
   }
 
   async step(title, stepToRun) {
@@ -55,6 +64,40 @@ export class ViewArticlePage {
       for (let i = 0; i < tags.length; i++) {
         await expect(this.tagListItem(tags[i])).toBeVisible();
       }
+    });
+  }
+  async clickEditArticleButton() {
+    await this.step(`Click Edit Article Button`, async () => {
+      await this.editArticleButton.click();
+    });
+  }
+  async clickDeleteTags(tags) {
+    await this.step(`Delete tags from article`, async () => {
+      for (let i = 0; i < tags.length; i++) {
+        await this.tagListItemDelete(tags[i]).click();
+      }
+    });
+  }
+  async clickUpdateArticleButton() {
+    await this.step(`Click Update Article`, async () => {
+      await this.updateArticleButton.click();
+    });
+  }
+  async assertArticleTagsAreNotVisible(tags) {
+    await this.step(`Assert the article has correct tags`, async () => {
+      for (let i = 0; i < tags.length; i++) {
+        await expect(this.tagListItem(tags[i])).toBeHidden();
+      }
+    });
+  }
+  async clickFollowUserButton(page = this.page) {
+    await this.step(`Click follow user button`, async () => {
+      await page.getByRole('button', { name: '   Follow' }).first().click();
+    });
+  }
+  async clickHomeButton(page = this.page) {
+    await this.step(`Click Home Page button`, async () => {
+      await page.getByRole('link', { name: 'Home' }).click();
     });
   }
 }
