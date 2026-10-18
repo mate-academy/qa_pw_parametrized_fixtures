@@ -28,6 +28,20 @@ export class ViewArticlePage {
       await this.page.goto(url);
     });
   }
+  async reload() {
+    await this.step(`reload`, async () => {
+      await this.page.reload();
+    });
+  }
+
+  async followUserButtonClick(username) {
+    await this.step('Click follow user button', async () => {
+      await this.page
+        .getByRole('button', { name: ` Follow ${username}` })
+        .first()
+        .click();
+    });
+  }
 
   async assertArticleTitleIsVisible(title) {
     await this.step(`Assert the article has correct title`, async () => {
@@ -39,7 +53,9 @@ export class ViewArticlePage {
     await this.step(
       `Assert the article has correct author username`,
       async () => {
-        await expect(this.authorLinkInArticleHeader(username)).toBeVisible();
+        await expect(
+          this.page.getByRole('link', { name: username }).first(),
+        ).toBeVisible();
       },
     );
   }
@@ -55,6 +71,14 @@ export class ViewArticlePage {
       for (let i = 0; i < tags.length; i++) {
         await expect(this.tagListItem(tags[i])).toBeVisible();
       }
+    });
+  }
+
+  async assertArticleHasNoTags() {
+    await this.step(`Assert the article has no tags`, async () => {
+      await expect(
+        this.page.locator('.tag-list').getByRole('listitem'),
+      ).toHaveCount(0);
     });
   }
 }
