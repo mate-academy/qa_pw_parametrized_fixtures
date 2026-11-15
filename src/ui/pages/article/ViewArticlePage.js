@@ -5,10 +5,16 @@ export class ViewArticlePage {
     this.page = page;
     this.userId = userId;
     this.articleTitleHeader = page.getByRole('heading');
+    this.editArticleButton = page
+      .getByRole('link', { name: 'Edit Article' })
+      .first();
+    this.logoLink = page.getByRole('navigation').getByRole('link', {
+      name: 'conduit',
+    });
   }
 
   authorLinkInArticleHeader(username) {
-    return this.page.getByRole('link', { username }).first();
+    return this.page.getByRole('link', { name: username, exact: true });
   }
 
   tagListItem(tagName) {
@@ -55,6 +61,46 @@ export class ViewArticlePage {
       for (let i = 0; i < tags.length; i++) {
         await expect(this.tagListItem(tags[i])).toBeVisible();
       }
+    });
+  }
+
+  async assertArticleTagsAreNotVisible(tags) {
+    await this.step(`Assert all tags are not visible`, async () => {
+      for (let i = 0; i < tags.length; i++) {
+        await expect(this.tagListItem(tags[i])).toBeHidden();
+      }
+    });
+  }
+  async clickEditArticleButton() {
+    await this.step(`Click the 'Edit Article' button`, async () => {
+      await this.editArticleButton.click();
+    });
+  }
+  async clickLogoLink() {
+    await this.step(`Click on the 'Logo' link`, async () => {
+      await this.logoLink.click();
+    });
+  }
+
+  findFollowButton(username) {
+    return this.page
+      .getByRole('button', { name: `Follow ${username}` })
+      .first();
+  }
+  findUnfollowButton(username) {
+    return this.page
+      .getByRole('button', { name: `Unfollow ${username}` })
+      .first();
+  }
+
+  async clickFollowAuthorButton(username) {
+    await this.step(`Click on the 'Follow' button`, async () => {
+      await this.findFollowButton(username).click();
+    });
+  }
+  async assertAuthorIsFollowed(username) {
+    await this.step(`Assert the follow on the Author`, async () => {
+      await expect(this.findUnfollowButton(username)).toBeVisible();
     });
   }
 }
