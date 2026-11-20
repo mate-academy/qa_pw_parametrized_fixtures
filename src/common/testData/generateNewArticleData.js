@@ -13,4 +13,9 @@ export function generateNewArticleData(logger, tagNumber = 0) {
   logger.debug(`Generated new article data: ${article}`);
 
   return article;
+};
+
+export function generateTagsArray(tagsNumber) {
+  const tags = Array.from({length: tagsNumber}, () => faker.lorem.word());
+  return tags;
 }
