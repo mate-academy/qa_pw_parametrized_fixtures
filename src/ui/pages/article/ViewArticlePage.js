@@ -5,6 +5,7 @@ export class ViewArticlePage {
     this.page = page;
     this.userId = userId;
     this.articleTitleHeader = page.getByRole('heading');
+    this.editArticleButton = page.getByRole('link', { name: 'Edit Article' }).first();
   }
 
   authorLinkInArticleHeader(username) {
@@ -22,6 +23,14 @@ export class ViewArticlePage {
   url() {
     return this.page.url();
   }
+
+  followButton(username) {
+  return this.page.getByRole('button', { name: `Follow ${username}` }).first();
+}
+
+unfollowButton(username) {
+  return this.page.getByRole('button', { name: `Unfollow ${username}` }).first();
+}
 
   async open(url) {
     await this.step(`Open 'View Article' page`, async () => {
@@ -55,6 +64,39 @@ export class ViewArticlePage {
       for (let i = 0; i < tags.length; i++) {
         await expect(this.tagListItem(tags[i])).toBeVisible();
       }
+    });
+  }
+
+  async clickEditArticleButton() {
+    await this.step(`Click the 'Edit Article' button`, async () => {
+      await this.editArticleButton.click();
+    });
+  }
+
+  async assertArticleTagsAreNotVisible(tags) {
+    await this.step(`Assert the article has no tags`, async () => {
+      for (let i = 0; i < tags.length; i++) {
+        await expect(this.tagListItem(tags[i])).toBeHidden();
+      }
+    });
+  }
+
+  async clickFollowButton(username) {
+    await this.step(`Click the 'Follow ${username}' button`, async () => {
+      await this.followButton(username).click();
+    });
+  }
+
+  async assertUnfollowButtonIsVisible(username) {
+    await this.step(`Assert the 'Unfollow ${username}' button is visible`, async () => {
+      await expect(this.unfollowButton(username)).toBeVisible();
+    });
+  }
+
+  async reload() {
+    await this.step(`Reload 'View Article' page`, async () => {
+      await expect(this.page).toHaveURL(/\/article\//);
+      await this.page.reload();
     });
   }
 }
