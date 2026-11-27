@@ -59,4 +59,10 @@ export class SignUpPage {
       await expect(this.errorMessage).toContainText(messageText);
     });
   }
+
+  async assertSignUpPageIsOpened() {
+    await this.step(`Assert the 'Sign Up' page is opened`, async () => {
+      await expect(this.page).toHaveURL(/\/user\/register$/);
+    });
+  }
 }
