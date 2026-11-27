@@ -23,4 +23,30 @@ export class HomePage {
       await expect(this.yourFeedTab).toBeVisible();
     });
   }
+
+  async assertYourFeedTabIsHidden() {
+    await this.step(`Assert the 'Your Feed' tab is hidden`, async () => {
+      await expect(this.yourFeedTab).toBeHidden();
+    });
+  }
+
+  async open() {
+    await this.step(`Open 'Home' page`, async () => {
+      await this.page.goto('/');
+  });
+}
+
+  async clickYourFeedTab() {
+     await this.step(`Click the 'Your Feed' tab`, async () => {
+       await this.yourFeedTab.click();
+  });
+}
+
+async assertArticleIsVisibleInFeed(title) {
+  await this.step(`Assert article '${title}' is visible in the feed`,
+     async () => {
+      await expect(this.page.getByRole('heading', { name: title }))
+      .toBeVisible();
+  });
+}
 }
