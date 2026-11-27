@@ -24,7 +24,6 @@ testParameters.forEach(({ tagsNumber, testNameEnding }) => {
        async ({ viewArticlePage, editArticlePage }) => {
       await viewArticlePage.assertArticleTagsAreVisible(article.tags);
       await viewArticlePage.clickEditArticleButton();
-      await viewArticlePage.clickEditArticleButton();
       await editArticlePage.deleteAllTags();
       await editArticlePage.clickUpdateArticleButton();
     await viewArticlePage.assertArticleTitleIsVisible(article.title);
